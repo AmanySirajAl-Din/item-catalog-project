@@ -59,7 +59,14 @@ def subCategory(mainCategory_id, subCategory_id):
 @app.route('/categories/<int:mainCategory_id>/new/',
            methods=['GET', 'POST'])
 def newSubCategory(mainCategory_id):
-    return "ADD new sub category in category id = " + mainCategory_id
+    if request.method == 'POST':
+        newItem = SubCategory(name=request.form['name'], description=request.form[
+                           'description'], mainCategory_id=mainCategory_id)
+        session.add(newItem)
+        session.commit()
+        return redirect(url_for('catalog_latest_updates'))
+    else:
+        return render_template('new_subCtegory.html', mainCategory_id=mainCategory_id)
 
 
 # edit sub category
