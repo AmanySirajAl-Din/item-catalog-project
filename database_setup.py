@@ -35,7 +35,7 @@ class SubCategory(Base):
     id = Column(Integer, primary_key=True)
     name = Column(String(80), nullable=False)
     description = Column(String(250))
-    MainCategory_id = Column(Integer, ForeignKey('main_category.id'))
+    mainCategory_id = Column(Integer, ForeignKey('main_category.id'))
     category = relationship(MainCategory)
     
     @property
