@@ -7,3 +7,7 @@ from sqlalchemy import create_engine
 
 Base = declarative_base()
 
+
+
+engine = create_engine('sqlite:///foodCatalog.db')
+Base.metadata.create_all(engine)
