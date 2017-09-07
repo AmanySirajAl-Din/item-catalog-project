@@ -12,15 +12,15 @@
             
             <aside class="main-categories">
                 {% for mc in mainCategories %}
-                <div class = 'category-name'>
-                    <a href = '{{url_for('mainCategory', mainCategory_id = mc.id)}}'>{{mc.name}}</a>
-                </div>
+                    <div class = 'category-name'>
+                        <a href = '{{url_for('mainCategory', mainCategory_id = mc.id)}}'>{{mc.name}} Recipes</a>
+                    </div>
                 {% endfor %}
             </aside>
             
             <main class="latest-updates">
                 {% for i in latestItems %}
-                <p class="latest-item">{{i.name}} <span class="latest-item-category">( {{i.category}} )</span></p>
+                    <p class="latest-item">{{i.name}} Recipes<span class="latest-item-category">( {{i.category}} Recipes )</span></p>
                 {% endfor %}
             </main>
             
