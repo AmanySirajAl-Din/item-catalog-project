@@ -18,6 +18,32 @@ DBSession = sessionmaker(bind=engine)
 session = DBSession()
 
 
+# Healthy food category
+foodCategory1 = mainCategory(name="Healthy", description="A healthy diet is one that helps to maintain or improve overall health.")
+
+session.add(foodCategory1)
+session.commit()
+
+foodItem1 = subCategory(name="Diabetic", description="Diabetic-friendly cakes, cookies, and more low-sugar desserts, plus dinner ideas.", category=foodCategory1)
+
+session.add(foodItem1)
+session.commit()
+
+foodItem1 = subCategory(name="Gluten-Free", description="Recipes that strictly excludes gluten, a mixture of proteins found in wheat and related grains, including barley, rye, oat, and all their species and hybrids.", category=foodCategory1)
+
+session.add(foodItem1)
+session.commit()
+
+foodItem1 = subCategory(name="Low-Sodium", description="According to the Mayo Clinic, a low-sodium recipe is one with no more than 140 milligrams of sodium per serving.", category=foodCategory1)
+
+session.add(foodItem1)
+session.commit()
+
+foodItem1 = subCategory(name="Low-Sodium", description="Recipes that restricts fat and often saturated fat and cholesterol as well. Low-fat diets are intended to reduce diseases such as heart disease and obesity.", category=foodCategory1)
+
+session.add(foodItem1)
+session.commit()
+
 
 
 print "added food categories!"
