@@ -18,7 +18,7 @@ def mainCategoryJSON(mainCategory_id):
 
 # ADD JSON ENDPOINT HERE
 @app.route('/restaurants/<int:restaurant_id>/subcategory/JSON')
-def subCategoryJSON(restaurant_id, subCategory_id):
+def subCategoryJSON(mainCategory_id, subCategory_id):
     return "jsonify"
 
 
