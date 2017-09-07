@@ -7,6 +7,10 @@ from sqlalchemy import create_engine
 
 Base = declarative_base()
 
+class mainCategory(Base):
+    
+
+class subCategory(Base):
 
 
 engine = create_engine('sqlite:///foodCatalog.db')
