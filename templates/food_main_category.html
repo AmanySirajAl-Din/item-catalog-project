@@ -11,6 +11,7 @@
             </header>
             
             <aside class="main-categories">
+                <h3>Food Main Categories</h3>
                 {% for mc in mainCategories %}
                     <div class = 'category-name'>
                         <a href = '{{url_for('mainCategory', mainCategory_id = mc.id)}}'>
@@ -21,6 +22,7 @@
             </aside>
             
             <main class="sub-categories">
+                <h3>{{mainCategory.name}} Recipes Categories</h3>
                 {% for i in subCategories %}
                     <a href = '{{url_for('subCategory', mainCategory_id = mainCategory_id, subCategory_id = i.id)}}'>       {{i.name}} Recipes
                     </a>

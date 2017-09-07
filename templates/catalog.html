@@ -11,6 +11,7 @@
             </header>
             
             <aside class="main-categories">
+                <h3>Food Main Categories</h3>
                 {% for mc in mainCategories %}
                     <div class = 'category-name'>
                         <a href = '{{url_for('mainCategory', mainCategory_id = mc.id)}}'>{{mc.name}} Recipes</a>
@@ -19,6 +20,7 @@
             </aside>
             
             <main class="latest-updates">
+                <h3>Latest Food Items</h3>
                 {% for i in latestItems %}
                     <p class="latest-item">{{i.name}} Recipes<span class="latest-item-category">( {{i.category}} Recipes )</span></p>
                 {% endfor %}
