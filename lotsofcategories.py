@@ -1,6 +1,6 @@
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
-from database_setup import Restaurant, Base, MenuItem
+from database_setup import mainCategory, Base, subCategory
 
 engine = create_engine('sqlite:///foodCatalog.db')
 # Bind the engine to the metadata of the Base class so that the
