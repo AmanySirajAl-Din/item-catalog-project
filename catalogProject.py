@@ -18,7 +18,7 @@ def mainCategoryJSON(mainCategory_id):
 
 # ADD JSON ENDPOINT HERE
 @app.route('/restaurants/<int:restaurant_id>/subcategory/JSON')
-def subCategoryJSON(restaurant_id, menu_id):
+def subCategoryJSON(restaurant_id, subCategory_id):
     return "jsonify"
 
 
@@ -40,28 +40,28 @@ def CatalogHome(mainCategory_id):
 
 # sub category
 @app.route('/categories/<int:mainCategory_id>/<int:subCategory_id>/')
-def newMenuItem(mainCategory_id, subCategory_id):
+def subCategory(mainCategory_id, subCategory_id):
     return "sub category id = "+ subCategory_id +" in category id = " + mainCategory_id
 
 
 # add new sub category
 @app.route('/categories/<int:mainCategory_id>/new/',
            methods=['GET', 'POST'])
-def newMenuItem(mainCategory_id):
+def newSubCategory(mainCategory_id):
     return "ADD new sub category in category id = " + mainCategory_id
 
 
 # edit sub category
 @app.route('/categories/<int:mainCategory_id>/<int:subCategory_id>/edit/',
            methods=['GET', 'POST'])
-def editMenuItem(mainCategory_id, subCategory_id):
+def editSubCategory(mainCategory_id, subCategory_id):
     return "EDIT sub category id = "+ subCategory_id +" in category id = " + mainCategory_id
 
 
 # delete sub category
 @app.route('/categories/<int:mainCategory_id>/<int:subCategory_id>/delete',
            methods=['GET', 'POST'])
-def editMenuItem(mainCategory_id, subCategory_id):
+def editSubCategory(mainCategory_id, subCategory_id):
     return "DELETE sub category id = "+ subCategory_id +" in category id = " + mainCategory_id
 
 if __name__ == '__main__':
