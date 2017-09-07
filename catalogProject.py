@@ -28,8 +28,9 @@ def subCategoryJSON(mainCategory_id, subCategory_id):
 @app.route('/index')
 @app.route('/categories')
 def catalog_latest_updates():
-    mainCategoryItems = session.query(MainCategory)
-    return render_template('catalog.html', mainCategoryItems=mainCategoryItems)
+    mainCategories = session.query(MainCategory).order_by(asc(MainCategory.name))
+    latestItems = session.query(SubCategory).order_by(desc(SubCategory.id)).limit(7)
+    return render_template('catalog.html', mainCategories=mainCategories, latestItems=latestItems)
 
 
 # sub categories of main category

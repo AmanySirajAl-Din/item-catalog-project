@@ -11,16 +11,17 @@
             </header>
             
             <aside class="main-categories">
-            {% for i in mainCategoryItems %}
+                {% for mc in mainCategories %}
                 <div class = 'category-name'>
-                    <a href = '{{url_for('mainCategory', mainCategory_id = i.id)}}'>{{i.name}}</a>
+                    <a href = '{{url_for('mainCategory', mainCategory_id = mc.id)}}'>{{mc.name}}</a>
                 </div>
-
-            {% endfor %}
+                {% endfor %}
             </aside>
             
             <main class="latest-updates">
-                
+                {% for i in latestItems %}
+                <p class="latest-item">{{i.name}} <span class="latest-item-category">( {{i.category}} )</span></p>
+                {% endfor %}
             </main>
             
         </div> <!-- end main-container -->
