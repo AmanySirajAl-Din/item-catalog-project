@@ -24,17 +24,17 @@ def subCategoryJSON(restaurant_id, subCategory_id):
 
 # main categories & last updates
 @app.route('/')
-@app.route('/last_update')
+@app.route('/last_updates')
 @app.route('/index')
 @app.route('/categories')
-def catalog_lasts_update():
+def catalog_lasts_updates():
     return "CatalogHome"
 
 
 # sub categories of main category
 # or main category clicked
 @app.route('/categories/<int:mainCategory_id>/')
-def CatalogHome(mainCategory_id):
+def mainCategory(mainCategory_id):
     return "category id = " + mainCategory_id
 
 
