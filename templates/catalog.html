@@ -1,20 +1,28 @@
+<!DOCTYPE html>
 <html>
     <head>
+        <title>Latest Updates</title>
     </head>
 	
 	<body>
         <div class = 'main-container'>
-            <div class = 'header'>
-                <h1>{{ restaurant.name }}</h1>
-            </div><!--end header -->
-
+            <header>
+                <h1>Food Catalog Project</h1>
+            </header>
+            
+            <aside class="main-categories">
             {% for i in mainCategoryItems %}
                 <div class = 'category-name'>
                     <a href = '{{url_for('mainCategory', mainCategory_id = i.id)}}'>{{i.name}}</a>
                 </div>
 
             {% endfor %}
-
+            </aside>
+            
+            <main class="latest-updates">
+                
+            </main>
+            
         </div> <!-- end main-container -->
 	</body>
 
