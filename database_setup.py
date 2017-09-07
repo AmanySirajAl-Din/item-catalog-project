@@ -9,7 +9,7 @@ from sqlalchemy import create_engine
 Base = declarative_base()
 
 # 3- Class code
-class mainCategory(Base):
+class MainCategory(Base):
     # 3- Table code
     __tablename__ = 'main_category'
 
@@ -27,7 +27,7 @@ class mainCategory(Base):
             'description': self.description,
         }
     
-class subCategory(Base):
+class SubCategory(Base):
     # 3- Table code
     __tablename__ = 'sub_category'
 
@@ -35,8 +35,8 @@ class subCategory(Base):
     id = Column(Integer, primary_key=True)
     name = Column(String(80), nullable=False)
     description = Column(String(250))
-    mainCategory_id = Column(Integer, ForeignKey('main_category.id'))
-    category = relationship(mainCategory)
+    MainCategory_id = Column(Integer, ForeignKey('main_category.id'))
+    category = relationship(MainCategory)
     
     @property
     def serialize(self):
