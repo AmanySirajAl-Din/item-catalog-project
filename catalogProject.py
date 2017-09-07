@@ -23,11 +23,12 @@ def subCategoryJSON(mainCategory_id, subCategory_id):
 
 
 # main categories & last updates
+# main categories & last updates
 @app.route('/')
-@app.route('/last_updates')
+@app.route('/latest_updates')
 @app.route('/index')
 @app.route('/categories')
-def catalog_lasts_updates():
+def catalog_latest_updates():
     return "CatalogHome"
 
 
