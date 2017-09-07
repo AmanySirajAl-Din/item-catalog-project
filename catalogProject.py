@@ -22,12 +22,12 @@ def subCategoryJSON(mainCategory_id, subCategory_id):
     return "jsonify"
 
 
-# main categories & last updates
+# main categories & latest updates
 @app.route('/')
-@app.route('/last_updates')
+@app.route('/latest_updates')
 @app.route('/index')
 @app.route('/categories')
-def catalog_lasts_updates():
+def catalog_latest_updates():
     mainCategoryItems = session.query(MainCategory)
     return render_template('catalog.html', mainCategoryItems=mainCategoryItems)
 
