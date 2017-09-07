@@ -73,7 +73,18 @@ def newSubCategory(mainCategory_id):
 @app.route('/categories/<int:mainCategory_id>/<int:subCategory_id>/edit/',
            methods=['GET', 'POST'])
 def editSubCategory(mainCategory_id, subCategory_id):
-    return "EDIT sub category id = "+ subCategory_id +" in category id = " + mainCategory_id
+    editedItem = session.query(SubCategory).filter_by(id=subCategory_id).one()
+    if request.method == 'POST':
+        if request.form['name']:
+            editedItem.name = request.form['name']
+        if request.form['description']:
+            editedItem.description = request.form['description']
+        session.add(editedItem)
+        session.commit()
+        return redirect(url_for('catalog_latest_updates'))
+    else:
+        return render_template(
+            'edit_subCategory.html', mainCategory_id=mainCategory_id, subCategory_id=subCategory_id, item=editedItem)
 
 
 # delete sub category
