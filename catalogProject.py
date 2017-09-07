@@ -11,13 +11,13 @@ Base.metadata.bind = engine
 DBSession = sessionmaker(bind=engine)
 session = DBSession()
 
-@app.route('/categories/<int:mainCategory_id>/subcategories/JSON')
+@app.route('/categories/<int:mainCategory_id>/subcategories/JSON/')
 def mainCategoryJSON(mainCategory_id):
     return "jsonify"
 
 
 # ADD JSON ENDPOINT HERE
-@app.route('/restaurants/<int:restaurant_id>/subcategory/JSON')
+@app.route('/categories/<int:restaurant_id>/subcategory/JSON/')
 def subCategoryJSON(mainCategory_id, subCategory_id):
     return "jsonify"
 
@@ -46,7 +46,9 @@ def mainCategory(mainCategory_id):
 # sub category
 @app.route('/categories/<int:mainCategory_id>/<int:subCategory_id>/')
 def subCategory(mainCategory_id, subCategory_id):
-    return "sub category id = "+ subCategory_id +" in category id = " + mainCategory_id
+    mainCategories = session.query(MainCategory).order_by(asc(MainCategory.name))
+    subCategory = session.query(SubCategory).filter_by(subCategory_id=subCategory_id).one()
+    return render_template('food_sub_category.html', subCategory_id=subCategory_id, subCategory=subCategory)
 
 
 # add new sub category
@@ -64,7 +66,7 @@ def editSubCategory(mainCategory_id, subCategory_id):
 
 
 # delete sub category
-@app.route('/categories/<int:mainCategory_id>/<int:subCategory_id>/delete',
+@app.route('/categories/<int:mainCategory_id>/<int:subCategory_id>/delete/',
            methods=['GET', 'POST'])
 def editSubCategory(mainCategory_id, subCategory_id):
     return "DELETE sub category id = "+ subCategory_id +" in category id = " + mainCategory_id
