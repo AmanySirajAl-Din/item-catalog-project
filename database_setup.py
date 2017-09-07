@@ -13,11 +13,11 @@ class mainCategory(Base):
     # 3- Table code
     __tablename__ = 'main_category'
 
+    # 4- Mapper code
     id = Column(Integer, primary_key=True)
     name = Column(String(250), nullable=False)
     description = Column(String(250))
     
-    # 4- Mapper code
     @property
     def serialize(self):
         """Return object data in easily serializeable format"""
@@ -31,13 +31,13 @@ class subCategory(Base):
     # 3- Table code
     __tablename__ = 'sub_category'
 
+    # 4- Mapper code
     id = Column(Integer, primary_key=True)
     name = Column(String(80), nullable=False)
     description = Column(String(250))
     mainCategory_id = Column(Integer, ForeignKey('main_category.id'))
     category = relationship(mainCategory)
     
-    # 4- Mapper code
     @property
     def serialize(self):
         """Return object data in easily serializeable format"""
