@@ -22,8 +22,7 @@ def subCategoryJSON(mainCategory_id, subCategory_id):
     return "jsonify"
 
 
-# main categories & last updates
-# main categories & last updates
+# main categories & latest updates
 @app.route('/')
 @app.route('/latest_updates')
 @app.route('/index')
