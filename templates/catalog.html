@@ -1,0 +1,21 @@
+<html>
+    <head>
+    </head>
+	
+	<body>
+        <div class = 'main-container'>
+            <div class = 'header'>
+                <h1>{{ restaurant.name }}</h1>
+            </div><!--end header -->
+
+            {% for i in mainCategoryItems %}
+                <div class = 'category-name'>
+                    <a href = '{{url_for('mainCategory', mainCategory_id = i.id)}}'>{{i.name}}</a>
+                </div>
+
+            {% endfor %}
+
+        </div> <!-- end main-container -->
+	</body>
+
+</html>

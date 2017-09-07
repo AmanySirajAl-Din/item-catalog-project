@@ -28,7 +28,8 @@ def subCategoryJSON(mainCategory_id, subCategory_id):
 @app.route('/index')
 @app.route('/categories')
 def catalog_lasts_updates():
-    return "CatalogHome"
+    mainCategoryItems = session.query(MainCategory)
+    return render_template('catalog.html', mainCategoryItems=mainCategoryItems)
 
 
 # sub categories of main category
