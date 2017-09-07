@@ -45,7 +45,31 @@ foodItem1 = subCategory(name="Low-fat", description="Recipes that restricts fat 
 session.add(foodItem1)
 session.commit()
 
+# World Cuisine food category
+foodCategory1 = mainCategory(name="World Cuisine", description="Boldly go where your taste buds haven't gone before with recipes from countries far and near. Your kitchen is the flight deck.")
 
+session.add(foodCategory1)
+session.commit()
+
+foodItem1 = subCategory(name="African", description="These tasty recipes are bursting with spice and flavor. Get the recipes from Morocco, Algeria, Egypt, and more.", category=foodCategory1)
+
+session.add(foodItem1)
+session.commit()
+
+foodItem1 = subCategory(name="Middle Eastern", description="Find your favorite Middle Eastern recipes for hummus, falafel, tabbouleh, kebabs, phyllo pastries, and more.", category=foodCategory1)
+
+session.add(foodItem1)
+session.commit()
+
+foodItem1 = subCategory(name="Japanese", description="Bring the bento box home with more than 220 trusted Japanese recipes for chicken teriyaki, sushi, miso soup, and yakisoba.", category=foodCategory1)
+
+session.add(foodItem1)
+session.commit()
+
+foodItem1 = subCategory(name="Italian", description=" is food typical from Italy. It has developed through centuries of social and economic changes. Italian-style pasta, chicken dishes, soup, and more. Traditional recipes with photos and videos to make them just like in the old country.", category=foodCategory1)
+
+session.add(foodItem1)
+session.commit()
 
 
 print "added food categories!"
