@@ -11,6 +11,17 @@ Base.metadata.bind = engine
 DBSession = sessionmaker(bind=engine)
 session = DBSession()
 
+@app.route('/categories/<int:mainCategory_id>/subcategories/JSON')
+def mainCategoryJSON(mainCategory_id):
+    return "jsonify"
+
+
+# ADD JSON ENDPOINT HERE
+@app.route('/restaurants/<int:restaurant_id>/subcategory/JSON')
+def subCategoryJSON(restaurant_id, menu_id):
+    return "jsonify"
+
+
 # main categories & last updates
 @app.route('/')
 @app.route('/last_update')
