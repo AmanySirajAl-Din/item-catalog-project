@@ -17,6 +17,7 @@ DBSession = sessionmaker(bind=engine)
 # session.rollback()
 session = DBSession()
 
+# data source from wiki and allrecipes.com
 
 # Healthy food category
 foodCategory1 = mainCategory(name="Healthy", description="A healthy diet is one that helps to maintain or improve overall health.")
@@ -39,10 +40,11 @@ foodItem1 = subCategory(name="Low-Sodium", description="According to the Mayo Cl
 session.add(foodItem1)
 session.commit()
 
-foodItem1 = subCategory(name="Low-Sodium", description="Recipes that restricts fat and often saturated fat and cholesterol as well. Low-fat diets are intended to reduce diseases such as heart disease and obesity.", category=foodCategory1)
+foodItem1 = subCategory(name="Low-fat", description="Recipes that restricts fat and often saturated fat and cholesterol as well. Low-fat diets are intended to reduce diseases such as heart disease and obesity.", category=foodCategory1)
 
 session.add(foodItem1)
 session.commit()
+
 
 
 
