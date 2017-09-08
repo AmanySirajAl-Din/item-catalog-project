@@ -97,7 +97,15 @@ def editSubCategory(mainCategory_id, subCategory_id):
 @app.route('/categories/<int:mainCategory_id>/<int:subCategory_id>/delete/',
            methods=['GET', 'POST'])
 def deleteSubCategory(mainCategory_id, subCategory_id):
-    return "DELETE sub category id = "+ subCategory_id +" in category id = " + mainCategory_id
+    itemToDelete = session.query(MenuItem).filter_by(id=subCategory_id).one()
+    if request.method == 'POST':
+        session.delete(itemToDelete)
+        session.commit()
+        return redirect(url_for('catalog_latest_updates'))
+    else:
+        return render_template(
+            'delete_subCategory.html', mainCategory_id=mainCategory_id, subCategory_id=subCategory_id, item=itemToDelete)
+
 
 if __name__ == '__main__':
     app.debug = True

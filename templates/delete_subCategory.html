@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>{{mainCategory.name}} Recipes</title>
+    </head>
+	
+	<body>
+        <header>
+            <h1>Food Catalog Project</h1>
+        </header>
+        
+        <div class = 'main-container'>
+            
+            <aside class="main-categories">
+                <h3>Food Categories</h3>
+                {% for mc in mainCategories %}
+                    <div class = 'category-name'>
+                        <a href = '{{url_for('mainCategory', mainCategory_id = mc.id)}}'>
+                            {{mc.name}} Recipes
+                        </a>
+                    </div>
+                {% endfor %}
+            </aside>
+            
+            <main class="sub-category-item">
+                <h3>New Food Sub Category</h3>
+                <form action="{{ url_for('newMenuItem', restaurant_id=restaurant_id )}}" method = 'post'>
+                    <dl>
+                        <dt>Name:</dt>
+                            <dd><input type ='text' size='30' name='name' required></dd>
+                        <dt>Description:</dt>
+                            <dd><textarea name = 'description' rows='5' cols='40' required></textarea></dd>
+                        <dt>Food Main Category:</dt>
+                            <dd>
+                                <select class="mainCategories-select">
+                                    {% for mcs in mainCategories %}
+                                        <option value="{{mcs.name}}">{{mcs.name}}</option>
+                                    {% endfor %}
+                                </select>
+                            </dd>
+                    </dl>
+
+                    <input type='submit' value='Create'>
+
+                    </form>
+            </main>
+            
+        </div> <!-- end main-container -->
+	</body>
+
+</html>
