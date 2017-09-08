@@ -23,7 +23,7 @@
             <main class="latest-updates">
                 <h3>Latest Food Items</h3>
                 {% for i in latestItems %}
-                    <p class="latest-item">{{i.name}} Recipes<span class="latest-item-category">( {{i.category}} Recipes )</span></p>
+                    <p class="latest-item">{{i.name}} Recipes <span class="latest-item-category">( {{i.category.name}} )</span></p>
                 {% endfor %}
             </main>
             
