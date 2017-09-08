@@ -11,6 +11,12 @@ Base.metadata.bind = engine
 DBSession = sessionmaker(bind=engine)
 session = DBSession()
 
+@app.route('/categories/maincategories/JSON/')
+def CategoriesJSON():
+    mainCategories = session.query(MainCategory).all()
+    return jsonify(MainCategory=[mc.serialize for mc in mainCategories])
+
+
 @app.route('/categories/<int:mainCategory_id>/subcategories/JSON/')
 def mainCategoryJSON(mainCategory_id):
     mainCategory = session.query(MainCategory).filter_by(id=mainCategory_id).one()
