@@ -90,7 +90,7 @@ def editSubCategory(mainCategory_id, subCategory_id):
 # delete sub category
 @app.route('/categories/<int:mainCategory_id>/<int:subCategory_id>/delete/',
            methods=['GET', 'POST'])
-def editSubCategory(mainCategory_id, subCategory_id):
+def deleteSubCategory(mainCategory_id, subCategory_id):
     return "DELETE sub category id = "+ subCategory_id +" in category id = " + mainCategory_id
 
 if __name__ == '__main__':
