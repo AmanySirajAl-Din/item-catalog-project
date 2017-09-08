@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from database_setup import MainCategory, Base, SubCategory
@@ -106,7 +108,7 @@ session.commit()
 
 
 # Main Dish food category
-foodCategory1 = MainCategory(name="Main Dish", description='The main dish is usually the heaviest, heartiest, and most complex or substantial dish on a menu. The main ingredient is usually meat, fish or another protein source. It is most often preceded by an appetizer, soup or salad, and followed by a dessert. For those reasons the main course is sometimes referred to as the "meat course". The main course is the featured or primary dish in a meal consisting of several courses. It usually follows the entrée ("entry") course. In the United States and parts of Canada, it may be called "entrée".')
+foodCategory1 = MainCategory(name="Main Dish", description='The main dish is usually the heaviest, heartiest, and most complex or substantial dish on a menu. The main ingredient is usually meat, fish or another protein source. It is most often preceded by an appetizer, soup or salad, and followed by a dessert. For those reasons the main course is sometimes referred to as the "meat course". The main course is the featured or primary dish in a meal consisting of several courses. It usually follows the entree ("entry") course. In the United States and parts of Canada, it may be called "entree".')
 
 session.add(foodCategory1)
 session.commit()
