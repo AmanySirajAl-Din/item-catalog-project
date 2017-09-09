@@ -23,26 +23,16 @@
             </aside>
             
             <main class="sub-category-item">
-                <h3>New Food Sub Category</h3>
-                <form action="{{ url_for('newMenuItem', restaurant_id=restaurant_id )}}" method = 'post'>
-                    <dl>
-                        <dt>Name:</dt>
-                            <dd><input type ='text' size='30' name='name' required></dd>
-                        <dt>Description:</dt>
-                            <dd><textarea name = 'description' rows='5' cols='40' required></textarea></dd>
-                        <dt>Food Main Category:</dt>
-                            <dd>
-                                <select class="mainCategories-select">
-                                    {% for mcs in mainCategories %}
-                                        <option value="{{mcs.name}}">{{mcs.name}}</option>
-                                    {% endfor %}
-                                </select>
-                            </dd>
-                    </dl>
+                <h3> Are you sure you want to delete {{item.name}}? </h3>
 
-                    <input type='submit' value='Create'>
+                <form action="{{ url_for('delete_subCategory',mainCategory_id = item.mainCategory_id, subCategory_id=item.id)}}" method = 'post'>
 
-                    </form>
+                    <input type='submit', value = 'Delete'>
+
+                </form>
+
+                <a href = '{{url_for('catalog_latest_updates')}}'> Cancel </a>
+
             </main>
             
         </div> <!-- end main-container -->
