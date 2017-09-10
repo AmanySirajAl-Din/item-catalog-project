@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>{{mainCategory.name}} Recipes</title>
+    </head>
+	
+	<body>
+        <header>
+            <h1>Food Catalog Project</h1>
+        </header>
+        
+        <div class = 'main-container'>
+            
+            <aside class="main-categories">
+                <h3>Food Categories</h3>
+                {% for mc in mainCategories %}
+                    <div class = 'category-name'>
+                        <a href = '{{url_for('mainCategory', mainCategory_id = mc.id)}}'>
+                            {{mc.name}} Recipes
+                        </a>
+                    </div>
+                {% endfor %}
+            </aside>
+            
+            <main class="sub-category-item">
+                <h3>{{subCategory.name}} Recipes</h3>
+                <p>Description: {{subCategory.description}}</p>
+                <div class="edit-delete-div">
+                    <a id="edit-a" href ='{{url_for('editSubCategory', mainCategory_id = mainCategory.id, subCategory_id = subCategory.id)}}'>Edit</a>
+                    <a id="delete-a" href ='{{url_for('deleteSubCategory', mainCategory_id = mainCategory.id, subCategory_id = subCategory.id)}}'>Delete</a>
+                </div>
+            </main>
+            
+        </div> <!-- end main-container -->
+	</body>
+
+</html>
