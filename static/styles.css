@@ -1,0 +1,83 @@
+@font-face {
+    font-family: 'PT Sans Regular';
+    src: url('../fonts/PT_Sans-Web-Regular.ttf');
+}
+
+body {
+    font-family: 'PT Sans Regular', sans-serif;
+    width: 100%;
+    background-image: url(../img/temp2.jpg);
+    background-position: center;
+    background-size: cover;
+}
+
+header{
+    width: 100%;
+    padding: 20px;
+    background-color: #2f3233;
+}
+
+a{
+    text-decoration: none !important;
+    color: #80314c;
+}
+
+a:visited{
+    color: #a28632;
+    font-size: 16px;
+}
+
+.header-container{
+    width: 80%;
+    margin: auto;
+}
+
+.main-header{
+    float: left;
+    color: #a28632;
+}
+
+.login-div{
+    float: right;
+    padding: 10px 20px;
+    background-color: #80314c;
+    color: #a28632;
+    border-radius: 15px;
+}
+
+.login-div:hover{
+    background-color: #a28632 !important;
+    color: #80314c !important;
+    border: 1px solid #80314c;
+}
+
+.main-container{
+    width: 80%;
+    margin: auto;
+    padding: 10px;
+    background-color: #fff;
+    border: 1px solid #d5d5d5;
+}
+
+.main-categories{
+    width: 30%;
+    float: left;
+    padding: 0 10px;
+}
+
+.latest-updates{
+    width: 60%;
+    float: left;
+    padding: 0 10px;
+    border-left: 1px solid #d5d5d5;
+}
+
+.sub-header{
+    color: #2f3233;
+}
+
+.latest-item-category{
+    font-size: 14px;
+    color: #999;
+}
+
