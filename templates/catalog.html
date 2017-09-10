@@ -20,6 +20,20 @@
                 {% endfor %}
             </aside>
             
+            <div class = 'flash'>
+		      {% with messages = get_flashed_messages() %}
+                  {% if messages %}
+
+                    <ul>
+                    {% for message in messages %}
+                        <li> <strong> {{ message }} </strong> </li>
+                    {% endfor %}
+                    </ul>
+                    {% endif %}
+                {% endwith %}
+
+            </div>
+            
             <main class="latest-updates">
                 <h3>Latest Food Items</h3>
                 {% for i in latestItems %}

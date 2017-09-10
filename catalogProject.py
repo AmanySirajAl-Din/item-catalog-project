@@ -71,6 +71,7 @@ def newSubCategory(mainCategory_id):
                            'description'], mainCategory_id=mainCategory_id)
         session.add(newItem)
         session.commit()
+        flash("New food sub category item created!")
         return redirect(url_for('catalog_latest_updates'))
     else:
         return render_template('new_subCtegory.html', mainCategory_id=mainCategory_id)
@@ -81,6 +82,7 @@ def newSubCategory(mainCategory_id):
            methods=['GET', 'POST'])
 def editSubCategory(mainCategory_id, subCategory_id):
     editedItem = session.query(SubCategory).filter_by(id=subCategory_id).one()
+    editedItemName = editedItem.name
     if request.method == 'POST':
         if request.form['name']:
             editedItem.name = request.form['name']
@@ -88,6 +90,7 @@ def editSubCategory(mainCategory_id, subCategory_id):
             editedItem.description = request.form['description']
         session.add(editedItem)
         session.commit()
+        flash("The " + editedItemName + " (food sub category) has been edited")
         return redirect(url_for('catalog_latest_updates'))
     else:
         return render_template(
@@ -99,9 +102,11 @@ def editSubCategory(mainCategory_id, subCategory_id):
            methods=['GET', 'POST'])
 def deleteSubCategory(mainCategory_id, subCategory_id):
     itemToDelete = session.query(MenuItem).filter_by(id=subCategory_id).one()
+    itemToDeleteName = itemToDelete.name
     if request.method == 'POST':
         session.delete(itemToDelete)
         session.commit()
+        flash("The " + itemToDeleteName + " (food sub category) has been deleted")
         return redirect(url_for('catalog_latest_updates'))
     else:
         return render_template(
