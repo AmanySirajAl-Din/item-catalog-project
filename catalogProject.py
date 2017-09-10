@@ -3,7 +3,7 @@ app = Flask(__name__)
 
 from sqlalchemy import create_engine, asc, desc
 from sqlalchemy.orm import sessionmaker
-# *import the tables from the new DB*
+# ** import the tables from the new DB **
 from database_setup_withusers import MainCategory, Base, SubCategory, User
 
 from flask import session as login_session
@@ -16,7 +16,7 @@ import json
 from flask import make_response
 import requests
 
-# 4- declare CLIENT_ID
+# declare CLIENT_ID
 CLIENT_ID = json.loads(
     open('client_secrets.json', 'r').read())['web']['client_id']
 APPLICATION_NAME = "Restaurant Menu Application"
@@ -110,6 +110,12 @@ def gconnect():
     login_session['username'] = data['name']
     login_session['picture'] = data['picture']
     login_session['email'] = data['email']
+    
+    # ** See if a user exists, if it doesn't make a new one **
+    user_id = getUserID(login_session['email'])
+    if not user_id:
+        user_id = createUser(login_session)
+    login_session['user_id'] = user_id
 
     output = ''
     output += '<h1>Welcome, '
