@@ -20,7 +20,7 @@ session.commit()
 
 
 # Healthy food category
-foodCategory1 = MainCategory(name="Healthy", description="A healthy diet is one that helps to maintain or improve overall health.")
+foodCategory1 = MainCategory(user_id=1, name="Healthy", description="A healthy diet is one that helps to maintain or improve overall health.")
 
 session.add(foodCategory1)
 session.commit()
@@ -49,7 +49,7 @@ session.commit()
 
 
 # World Cuisine food category
-foodCategory1 = MainCategory(name="World Cuisine", description="Boldly go where your taste buds haven't gone before with recipes from countries far and near. Your kitchen is the flight deck.")
+foodCategory1 = MainCategory(user_id=1, name="World Cuisine", description="Boldly go where your taste buds haven't gone before with recipes from countries far and near. Your kitchen is the flight deck.")
 
 session.add(foodCategory1)
 session.commit()
@@ -81,7 +81,7 @@ session.commit()
 
 
 # Dessert food category
-foodCategory1 = MainCategory(name="Dessert", description="Dessert is a confectionery course that concludes a main meal. The course usually consists of sweet foods and beverages, such as dessert wine or liqueurs, but may include coffee, cheeses, nuts, or other savory items. In some parts of the world, such as much of central and western Africa, and most parts of China, there is no tradition of a dessert course to conclude a meal. Whether you crave sweet, savory, decadent or healthy, dessert recipes have hundreds of recipes to satisfy your taste buds.")
+foodCategory1 = MainCategory(user_id=1, name="Dessert", description="Dessert is a confectionery course that concludes a main meal. The course usually consists of sweet foods and beverages, such as dessert wine or liqueurs, but may include coffee, cheeses, nuts, or other savory items. In some parts of the world, such as much of central and western Africa, and most parts of China, there is no tradition of a dessert course to conclude a meal. Whether you crave sweet, savory, decadent or healthy, dessert recipes have hundreds of recipes to satisfy your taste buds.")
 
 session.add(foodCategory1)
 session.commit()
@@ -108,7 +108,7 @@ session.commit()
 
 
 # Main Dish food category
-foodCategory1 = MainCategory(name="Main Dish", description='The main dish is usually the heaviest, heartiest, and most complex or substantial dish on a menu. The main ingredient is usually meat, fish or another protein source. It is most often preceded by an appetizer, soup or salad, and followed by a dessert. For those reasons the main course is sometimes referred to as the "meat course". The main course is the featured or primary dish in a meal consisting of several courses. It usually follows the entree ("entry") course. In the United States and parts of Canada, it may be called "entree".')
+foodCategory1 = MainCategory(user_id=1, name="Main Dish", description='The main dish is usually the heaviest, heartiest, and most complex or substantial dish on a menu. The main ingredient is usually meat, fish or another protein source. It is most often preceded by an appetizer, soup or salad, and followed by a dessert. For those reasons the main course is sometimes referred to as the "meat course". The main course is the featured or primary dish in a meal consisting of several courses. It usually follows the entree ("entry") course. In the United States and parts of Canada, it may be called "entree".')
 
 session.add(foodCategory1)
 session.commit()
