@@ -3,13 +3,12 @@ app = Flask(__name__)
 
 from sqlalchemy import create_engine, asc, desc
 from sqlalchemy.orm import sessionmaker
-from database_setup import MainCategory, Base, SubCategory
+# *import the tables from the new DB*
+from database_setup_withusers import MainCategory, Base, SubCategory, User
 
-#1- NEW imports
 from flask import session as login_session
 import random, string
 
-# 3- imports for Gconnect method
 from oauth2client.client import flow_from_clientsecrets
 from oauth2client.client import FlowExchangeError
 import httplib2
@@ -18,15 +17,14 @@ from flask import make_response
 import requests
 
 
-# Connect to Database and create database session
-engine = create_engine('sqlite:///foodCatalog.db')
+engine = create_engine('sqlite:///foodCatalogWithUsers.db')
 Base.metadata.bind = engine
 
 DBSession = sessionmaker(bind=engine)
 session = DBSession()
 
 
-# 2- Create anti-forgery state token
+# Create anti-forgery state token
 @app.route('/login')
 def showLogin():
     state = ''.join(random.choice(string.ascii_uppercase + string.digits)
@@ -36,12 +34,12 @@ def showLogin():
     return render_template('login.html', STATE=state)
 
 
-# 4- declare CLIENT_ID
+# declare CLIENT_ID
 CLIENT_ID = json.loads(
     open('client_secrets.json', 'r').read())['web']['client_id']
 APPLICATION_NAME = "Restaurant Menu Application"
 
-# 5- create the server-side GConnect fun.
+# create the server-side GConnect fun.
 @app.route('/gconnect', methods=['POST'])
 def gconnect():
     # Validate state token
@@ -98,6 +96,29 @@ def gconnect():
                                  200)
         response.headers['Content-Type'] = 'application/json'
         return response
+    
+    
+# User Helper Functions
+def createUser(login_session):
+    newUser = User(name=login_session['username'], email=login_session[
+                   'email'], picture=login_session['picture'])
+    session.add(newUser)
+    session.commit()
+    user = session.query(User).filter_by(email=login_session['email']).one()
+    return user.id
+
+
+def getUserInfo(user_id):
+    user = session.query(User).filter_by(id=user_id).one()
+    return user
+
+
+def getUserID(email):
+    try:
+        user = session.query(User).filter_by(email=email).one()
+        return user.id
+    except:
+        return None
     
     
     
