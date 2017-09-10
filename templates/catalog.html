@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html>
-<<<<<<< HEAD
 
 <head>
     <title>Latest Updates</title>
+    <link type="text/css" rel="stylesheet" href="/static/styles.css"/>
 </head>
 
 <body>
@@ -17,98 +17,23 @@
     <div class='main-container'>
 
         <aside class="main-categories">
-            <h3 class="sub-header">Food Categories</h3>
-            {% for mc in mainCategories %}
+            <h1 class="sub-header">Food Categories</h1>
             <div class='category-name'>
-                <a href='{{url_for('mainCategory', mainCategory_id = mc.id)}}'>{{mc.name}} Recipes</a>
+                {% for mc in mainCategories %}
+                    <p><a href='{{url_for('mainCategory', mainCategory_id = mc.id)}}'>{{mc.name}} Recipes</a></p>
+                {% endfor %}
             </div>
-            {% endfor %}
         </aside>
 
-        <main class="latest-updates">
-            <h3 class="sub-header">Latest Food Items</h3>
-            {% for i in latestItems %}
-            <a href='{{url_for('subCategory', mainCategory_id = i.category.id, subCategory_id = i.id)}}' class="latest-item">{{i.name}} Recipes <span class="latest-item-category">( {{i.category.name}} )</span></p>
-            {% endfor %}
-        </main>
-
-    </div>
-    <!-- end main-container -->
+        <main class="main-section">
+            <h1 class="sub-header">Latest Food Items</h1>
+                {% for i in latestItems %}
+                    <p><a href='{{url_for('subCategory', mainCategory_id = i.category.id, subCategory_id = i.id)}}' class="latest-item">{{i.name}} Recipes <span class="latest-item-category">( {{i.category.name}} )</span>
+                    </a></p>
+                {% endfor %}
+            </main>
+            
+        </div> <!-- end main-container -->
 </body>
-||||||| merged common ancestors
-    <head>
-        <title>Latest Updates</title>
-    </head>
-	
-	<body>
-        <header>
-            <h1>Food Catalog Project</h1>
-        </header>
-        
-        <div class = 'main-container'>
-            
-            <aside class="main-categories">
-                <h3>Food Categories</h3>
-                {% for mc in mainCategories %}
-                    <div class = 'category-name'>
-                        <a href = '{{url_for('mainCategory', mainCategory_id = mc.id)}}'>{{mc.name}} Recipes</a>
-                    </div>
-                {% endfor %}
-            </aside>
-            
-            <main class="latest-updates">
-                <h3>Latest Food Items</h3>
-                {% for i in latestItems %}
-                    <p class="latest-item">{{i.name}} Recipes<span class="latest-item-category">( {{i.category}} Recipes )</span></p>
-                {% endfor %}
-            </main>
-            
-        </div> <!-- end main-container -->
-	</body>
-=======
-    <head>
-        <title>Latest Updates</title>
-    </head>
-	
-	<body>
-        <header>
-            <h1>Food Catalog Project</h1>
-        </header>
-        
-        <div class = 'main-container'>
-            
-            <aside class="main-categories">
-                <h3>Food Categories</h3>
-                {% for mc in mainCategories %}
-                    <div class = 'category-name'>
-                        <a href = '{{url_for('mainCategory', mainCategory_id = mc.id)}}'>{{mc.name}} Recipes</a>
-                    </div>
-                {% endfor %}
-            </aside>
-            
-            <div class = 'flash'>
-		      {% with messages = get_flashed_messages() %}
-                  {% if messages %}
-
-                    <ul>
-                    {% for message in messages %}
-                        <li> <strong> {{ message }} </strong> </li>
-                    {% endfor %}
-                    </ul>
-                    {% endif %}
-                {% endwith %}
-
-            </div>
-            
-            <main class="latest-updates">
-                <h3>Latest Food Items</h3>
-                {% for i in latestItems %}
-                    <p class="latest-item">{{i.name}} Recipes <span class="latest-item-category">( {{i.category.name}} )</span></p>
-                {% endfor %}
-            </main>
-            
-        </div> <!-- end main-container -->
-	</body>
->>>>>>> add_templates
 
 </html>

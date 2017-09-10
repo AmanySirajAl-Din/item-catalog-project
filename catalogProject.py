@@ -211,7 +211,6 @@ def subCategoryJSON(mainCategory_id, subCategory_id):
 # main categories & latest updates
 @app.route('/')
 @app.route('/latest_updates')
-@app.route('/index')
 @app.route('/categories')
 def catalog_latest_updates():
     mainCategories = session.query(MainCategory).order_by(asc(MainCategory.name))
@@ -227,10 +226,11 @@ def mainCategory(mainCategory_id):
     mainCategory = session.query(MainCategory).filter_by(id=mainCategory_id).one()
     creator = getUserInfo(mainCategory.user_id)
     subCategories = session.query(SubCategory).filter_by(mainCategory_id=mainCategory_id).order_by(asc(SubCategory.name))
+<<<<<<< HEAD
     if 'username' not in login_session or creator.id != login_session['user_id']:
-        return render_template('food_main_category', mainCategory=mainCategory, mainCategory_id=mainCategory_id, subCategories=subCategories, creator = creator)
+        return render_template('food_main_category', mainCategories=mainCategories, mainCategory=mainCategory, mainCategory_id=mainCategory_id, subCategories=subCategories, creator = creator)
     else:
-        return render_template('food_main_category-private.html', mainCategory=mainCategory, mainCategory_id=mainCategory_id, subCategories=subCategories, creator = creator)
+        return render_template('food_main_category-private.html', mainCategories=mainCategories, mainCategory=mainCategory, mainCategory_id=mainCategory_id, subCategories=subCategories, creator = creator)
 
 
 # sub category
@@ -240,9 +240,9 @@ def subCategory(mainCategory_id, subCategory_id):
     subCategory = session.query(SubCategory).filter_by(subCategory_id=subCategory_id).one()
     creator = getUserInfo(subCategory.user_id)
     if 'username' not in login_session:
-        return render_template('food_sub_category', subCategory_id=subCategory_id, subCategory=subCategory)
+        return render_template('food_sub_category', mainCategories=mainCategories, subCategory_id=subCategory_id, subCategory=subCategory)
     else:
-        return render_template('food_sub_category-private.html', subCategory_id=subCategory_id, subCategory=subCategory)
+        return render_template('food_sub_category-private.html', mainCategories=mainCategories, subCategory_id=subCategory_id, subCategory=subCategory)
 
 
 # add new sub category
