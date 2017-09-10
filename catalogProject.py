@@ -16,6 +16,10 @@ import json
 from flask import make_response
 import requests
 
+# 4- declare CLIENT_ID
+CLIENT_ID = json.loads(
+    open('client_secrets.json', 'r').read())['web']['client_id']
+APPLICATION_NAME = "Restaurant Menu Application"
 
 engine = create_engine('sqlite:///foodCatalogWithUsers.db')
 Base.metadata.bind = engine
@@ -33,11 +37,6 @@ def showLogin():
     # return "The current session state is %s" % login_session['state']
     return render_template('login.html', STATE=state)
 
-
-# declare CLIENT_ID
-CLIENT_ID = json.loads(
-    open('client_secrets.json', 'r').read())['web']['client_id']
-APPLICATION_NAME = "Restaurant Menu Application"
 
 # create the server-side GConnect fun.
 @app.route('/gconnect', methods=['POST'])
@@ -96,6 +95,32 @@ def gconnect():
                                  200)
         response.headers['Content-Type'] = 'application/json'
         return response
+
+    # Store the access token in the session for later use.
+    login_session['access_token'] = credentials.access_token
+    login_session['gplus_id'] = gplus_id
+
+    # Get user info
+    userinfo_url = "https://www.googleapis.com/oauth2/v1/userinfo"
+    params = {'access_token': credentials.access_token, 'alt': 'json'}
+    answer = requests.get(userinfo_url, params=params)
+
+    data = answer.json()
+
+    login_session['username'] = data['name']
+    login_session['picture'] = data['picture']
+    login_session['email'] = data['email']
+
+    output = ''
+    output += '<h1>Welcome, '
+    output += login_session['username']
+    output += '!</h1>'
+    output += '<img src="'
+    output += login_session['picture']
+    output += ' " style = "width: 300px; height: 300px;border-radius: 150px;-webkit-border-radius: 150px;-moz-border-radius: 150px;"> '
+    flash("you are now logged in as %s" % login_session['username'])
+    print "done!"
+    return output
     
     
 # User Helper Functions
@@ -211,6 +236,11 @@ def subCategory(mainCategory_id, subCategory_id):
 @app.route('/categories/<int:mainCategory_id>/new/',
            methods=['GET', 'POST'])
 def newSubCategory(mainCategory_id):
+    # chech if user loogged in or not
+    # to protect praivate pages from access
+    if 'username' not in login_session:
+        return redirect('/login')
+    
     if request.method == 'POST':
         newItem = SubCategory(name=request.form['name'], description=request.form[
                            'description'], mainCategory_id=mainCategory_id, user_id=login_session['user_id'])
@@ -226,6 +256,11 @@ def newSubCategory(mainCategory_id):
 @app.route('/categories/<int:mainCategory_id>/<int:subCategory_id>/edit/',
            methods=['GET', 'POST'])
 def editSubCategory(mainCategory_id, subCategory_id):
+    # chech if user loogged in or not
+    # to protect praivate pages from access
+    if 'username' not in login_session:
+        return redirect('/login')
+    
     editedItem = session.query(SubCategory).filter_by(id=subCategory_id).one()
     editedItemName = editedItem.name
     if request.method == 'POST':
@@ -246,6 +281,11 @@ def editSubCategory(mainCategory_id, subCategory_id):
 @app.route('/categories/<int:mainCategory_id>/<int:subCategory_id>/delete/',
            methods=['GET', 'POST'])
 def deleteSubCategory(mainCategory_id, subCategory_id):
+    # chech if user loogged in or not
+    # to protect praivate pages from access
+    if 'username' not in login_session:
+        return redirect('/login')
+    
     itemToDelete = session.query(MenuItem).filter_by(id=subCategory_id).one()
     itemToDeleteName = itemToDelete.name
     if request.method == 'POST':
