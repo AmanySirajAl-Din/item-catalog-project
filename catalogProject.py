@@ -1,16 +1,22 @@
 from flask import Flask, render_template, request, redirect, url_for, jsonify
+app = Flask(__name__)
+
 from sqlalchemy import create_engine, asc, desc
 from sqlalchemy.orm import sessionmaker
 from database_setup import MainCategory, Base, SubCategory
 
-app = Flask(__name__)
+#1- NEW imports
+from flask import session as login_session
+import random, string
 
+# Connect to Database and create database session
 engine = create_engine('sqlite:///foodCatalog.db')
 Base.metadata.bind = engine
 
 DBSession = sessionmaker(bind=engine)
 session = DBSession()
 
+# JSON APIs to view Restaurant Information
 @app.route('/categories/maincategories/JSON/')
 def CategoriesJSON():
     mainCategories = session.query(MainCategory).all()
