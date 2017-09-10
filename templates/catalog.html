@@ -1,33 +1,38 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <title>Latest Updates</title>
-    </head>
-	
-	<body>
-        <header>
-            <h1>Food Catalog Project</h1>
-        </header>
-        
-        <div class = 'main-container'>
-            
-            <aside class="main-categories">
-                <h3>Food Categories</h3>
-                {% for mc in mainCategories %}
-                    <div class = 'category-name'>
-                        <a href = '{{url_for('mainCategory', mainCategory_id = mc.id)}}'>{{mc.name}} Recipes</a>
-                    </div>
-                {% endfor %}
-            </aside>
-            
-            <main class="latest-updates">
-                <h3>Latest Food Items</h3>
-                {% for i in latestItems %}
-                    <p class="latest-item">{{i.name}} Recipes <span class="latest-item-category">( {{i.category.name}} )</span></p>
-                {% endfor %}
-            </main>
-            
-        </div> <!-- end main-container -->
-	</body>
+
+<head>
+    <title>Latest Updates</title>
+</head>
+
+<body>
+    <header>
+        <div class="header-container">
+            <h1 class="main-header">Food Catalog Project</h1>
+            <div class="login-div">Login</div>
+        </div>
+    </header>
+
+    <div class='main-container'>
+
+        <aside class="main-categories">
+            <h3 class="sub-header">Food Categories</h3>
+            {% for mc in mainCategories %}
+            <div class='category-name'>
+                <a href='{{url_for('mainCategory', mainCategory_id = mc.id)}}'>{{mc.name}} Recipes</a>
+            </div>
+            {% endfor %}
+        </aside>
+
+        <main class="latest-updates">
+            <h3 class="sub-header">Latest Food Items</h3>
+            {% for i in latestItems %}
+            <a href='{{url_for('subCategory', mainCategory_id = i.category.id, subCategory_id = i.id)}}' class="latest-item">{{i.name}} Recipes <span class="latest-item-category">( {{i.category.name}} )</span></p>
+            {% endfor %}
+        </main>
+
+    </div>
+    <!-- end main-container -->
+</body>
 
 </html>
