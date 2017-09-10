@@ -190,6 +190,11 @@ def subCategory(mainCategory_id, subCategory_id):
 @app.route('/categories/<int:mainCategory_id>/new/',
            methods=['GET', 'POST'])
 def newSubCategory(mainCategory_id):
+    # chech if user loogged in or not
+    # to protect praivate pages from access
+    if 'username' not in login_session:
+        return redirect('/login')
+    
     if request.method == 'POST':
         newItem = SubCategory(name=request.form['name'], description=request.form[
                            'description'], mainCategory_id=mainCategory_id)
@@ -205,6 +210,11 @@ def newSubCategory(mainCategory_id):
 @app.route('/categories/<int:mainCategory_id>/<int:subCategory_id>/edit/',
            methods=['GET', 'POST'])
 def editSubCategory(mainCategory_id, subCategory_id):
+    # chech if user loogged in or not
+    # to protect praivate pages from access
+    if 'username' not in login_session:
+        return redirect('/login')
+    
     editedItem = session.query(SubCategory).filter_by(id=subCategory_id).one()
     editedItemName = editedItem.name
     if request.method == 'POST':
@@ -225,6 +235,11 @@ def editSubCategory(mainCategory_id, subCategory_id):
 @app.route('/categories/<int:mainCategory_id>/<int:subCategory_id>/delete/',
            methods=['GET', 'POST'])
 def deleteSubCategory(mainCategory_id, subCategory_id):
+    # chech if user loogged in or not
+    # to protect praivate pages from access
+    if 'username' not in login_session:
+        return redirect('/login')
+    
     itemToDelete = session.query(MenuItem).filter_by(id=subCategory_id).one()
     itemToDeleteName = itemToDelete.name
     if request.method == 'POST':
