@@ -254,6 +254,10 @@ def newSubCategory(mainCategory_id):
     if 'username' not in login_session:
         return redirect('/login')
     
+    if itemToDelete.user_id != login_session['user_id']:
+        flash ("You cannot delete this Category. This Category belongs to %s" % creator.name)
+        return redirect(url_for('catalog_latest_updates'))
+    
     if request.method == 'POST':
         newItem = SubCategory(name=request.form['name'], description=request.form[
                            'description'], mainCategory_id=mainCategory_id, user_id=login_session['user_id'])
@@ -273,6 +277,10 @@ def editSubCategory(mainCategory_id, subCategory_id):
     # to protect praivate pages from access
     if 'username' not in login_session:
         return redirect('/login')
+    
+    if itemToDelete.user_id != login_session['user_id']:
+        flash ("You cannot delete this Category. This Category belongs to %s" % creator.name)
+        return redirect(url_for('catalog_latest_updates'))
     
     editedItem = session.query(SubCategory).filter_by(id=subCategory_id).one()
     editedItemName = editedItem.name
@@ -298,6 +306,10 @@ def deleteSubCategory(mainCategory_id, subCategory_id):
     # to protect praivate pages from access
     if 'username' not in login_session:
         return redirect('/login')
+    
+    if itemToDelete.user_id != login_session['user_id']:
+        flash ("You cannot delete this Category. This Category belongs to %s" % creator.name)
+        return redirect(url_for('catalog_latest_updates'))
     
     itemToDelete = session.query(MenuItem).filter_by(id=subCategory_id).one()
     itemToDeleteName = itemToDelete.name
