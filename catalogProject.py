@@ -213,7 +213,7 @@ def subCategory(mainCategory_id, subCategory_id):
 def newSubCategory(mainCategory_id):
     if request.method == 'POST':
         newItem = SubCategory(name=request.form['name'], description=request.form[
-                           'description'], mainCategory_id=mainCategory_id)
+                           'description'], mainCategory_id=mainCategory_id, user_id=login_session['user_id'])
         session.add(newItem)
         session.commit()
         flash("New food sub category item created!")
