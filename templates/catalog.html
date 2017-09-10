@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+<<<<<<< HEAD
 
 <head>
     <title>Latest Updates</title>
@@ -34,5 +35,80 @@
     </div>
     <!-- end main-container -->
 </body>
+||||||| merged common ancestors
+    <head>
+        <title>Latest Updates</title>
+    </head>
+	
+	<body>
+        <header>
+            <h1>Food Catalog Project</h1>
+        </header>
+        
+        <div class = 'main-container'>
+            
+            <aside class="main-categories">
+                <h3>Food Categories</h3>
+                {% for mc in mainCategories %}
+                    <div class = 'category-name'>
+                        <a href = '{{url_for('mainCategory', mainCategory_id = mc.id)}}'>{{mc.name}} Recipes</a>
+                    </div>
+                {% endfor %}
+            </aside>
+            
+            <main class="latest-updates">
+                <h3>Latest Food Items</h3>
+                {% for i in latestItems %}
+                    <p class="latest-item">{{i.name}} Recipes<span class="latest-item-category">( {{i.category}} Recipes )</span></p>
+                {% endfor %}
+            </main>
+            
+        </div> <!-- end main-container -->
+	</body>
+=======
+    <head>
+        <title>Latest Updates</title>
+    </head>
+	
+	<body>
+        <header>
+            <h1>Food Catalog Project</h1>
+        </header>
+        
+        <div class = 'main-container'>
+            
+            <aside class="main-categories">
+                <h3>Food Categories</h3>
+                {% for mc in mainCategories %}
+                    <div class = 'category-name'>
+                        <a href = '{{url_for('mainCategory', mainCategory_id = mc.id)}}'>{{mc.name}} Recipes</a>
+                    </div>
+                {% endfor %}
+            </aside>
+            
+            <div class = 'flash'>
+		      {% with messages = get_flashed_messages() %}
+                  {% if messages %}
+
+                    <ul>
+                    {% for message in messages %}
+                        <li> <strong> {{ message }} </strong> </li>
+                    {% endfor %}
+                    </ul>
+                    {% endif %}
+                {% endwith %}
+
+            </div>
+            
+            <main class="latest-updates">
+                <h3>Latest Food Items</h3>
+                {% for i in latestItems %}
+                    <p class="latest-item">{{i.name}} Recipes <span class="latest-item-category">( {{i.category.name}} )</span></p>
+                {% endfor %}
+            </main>
+            
+        </div> <!-- end main-container -->
+	</body>
+>>>>>>> add_templates
 
 </html>
