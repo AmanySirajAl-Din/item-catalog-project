@@ -1,29 +1,22 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>{{mainCategory.name}} Recipes</title>
+        <title>{{subCategory.category.name}} Recipes</title>
+        <link type="text/css" rel="stylesheet" href="/static/styles.css"/>
     </head>
 	
 	<body>
         <header>
-            <h1>Food Catalog Project</h1>
+            <div class="header-container">
+                <h1 class="main-header">Food Catalog Project</h1>
+                <div class="login-div">Login</div>
+            </div>
         </header>
         
-        <div class = 'main-container'>
-            
-            <aside class="main-categories">
-                <h3>Food Categories</h3>
-                {% for mc in mainCategories %}
-                    <div class = 'category-name'>
-                        <a href = '{{url_for('mainCategory', mainCategory_id = mc.id)}}'>
-                            {{mc.name}} Recipes
-                        </a>
-                    </div>
-                {% endfor %}
-            </aside>
+        <div class='main-container'>
             
             <main class="sub-category-item">
-                <h3>{{subCategory.name}} Recipes</h3>
+                <h1 class="sub-header">{{subCategory.name}} Recipes</h1>
                 <p>Description: {{subCategory.description}}</p>
             </main>
             
