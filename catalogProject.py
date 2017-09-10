@@ -225,9 +225,12 @@ def catalog_latest_updates():
 def mainCategory(mainCategory_id):
     mainCategories = session.query(MainCategory).order_by(asc(MainCategory.name))
     mainCategory = session.query(MainCategory).filter_by(id=mainCategory_id).one()
+    creator = getUserInfo(mainCategory.user_id)
     subCategories = session.query(SubCategory).filter_by(mainCategory_id=mainCategory_id).order_by(asc(SubCategory.name))
-    return render_template(
-        'food_main_category.html', mainCategory=mainCategory, mainCategory_id=mainCategory_id, subCategories=subCategories)
+    if 'username' not in login_session or creator.id != login_session['user_id']:
+        return render_template('food_main_category', mainCategory=mainCategory, mainCategory_id=mainCategory_id, subCategories=subCategories, creator = creator)
+    else:
+        return render_template('food_main_category-private.html', mainCategory=mainCategory, mainCategory_id=mainCategory_id, subCategories=subCategories, creator = creator)
 
 
 # sub category
@@ -235,7 +238,11 @@ def mainCategory(mainCategory_id):
 def subCategory(mainCategory_id, subCategory_id):
     mainCategories = session.query(MainCategory).order_by(asc(MainCategory.name))
     subCategory = session.query(SubCategory).filter_by(subCategory_id=subCategory_id).one()
-    return render_template('food_sub_category.html', subCategory_id=subCategory_id, subCategory=subCategory)
+    creator = getUserInfo(subCategory.user_id)
+    if 'username' not in login_session:
+        return render_template('food_sub_category', subCategory_id=subCategory_id, subCategory=subCategory)
+    else:
+        return render_template('food_sub_category-private.html', subCategory_id=subCategory_id, subCategory=subCategory)
 
 
 # add new sub category
