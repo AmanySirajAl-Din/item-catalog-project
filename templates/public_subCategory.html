@@ -1,26 +1,37 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <title>{{subCategory.category.name}} Recipes</title>
-        <link type="text/css" rel="stylesheet" href="/static/styles.css"/>
-    </head>
-	
-	<body>
-        <header>
-            <div class="header-container">
-                <h1 class="main-header">Food Catalog Project</h1>
-                <div class="login-div">Login</div>
+
+<head>
+    <title>{{subCategory.category.name}} Recipes</title>
+    <link type="text/css" rel="stylesheet" href="/static/styles.css" />
+</head>
+
+<body>
+    <header>
+        <div class="header-container">
+            <h1 class="main-header">Food Catalog Project</h1>
+            <div class="login-div"><a href='{{url_for(' showLogin ')}}'>Login</a></div>
+        </div>
+    </header>
+
+    <div class='main-container'>
+
+        <aside class="main-categories">
+            <h1 class="sub-header">Food Categories</h1>
+            <div class='category-name'>
+                {% for mc in mainCategories %}
+                <p><a href='{{url_for(' mainCategory ', mainCategory_id = mc.id)}}'>{{mc.name}} Recipes</a></p>
+                {% endfor %}
             </div>
-        </header>
-        
-        <div class='main-container'>
-            
-            <main class="sub-category-item">
-                <h1 class="sub-header">{{subCategory.name}} Recipes</h1>
-                <p>Description: {{subCategory.description}}</p>
-            </main>
-            
-        </div> <!-- end main-container -->
-	</body>
+        </aside>
+
+        <main class="sub-category-item main-section">
+            <h1 class="sub-header">{{subCategory.name}} Recipes</h1>
+            <p class="descrip-p">Description: {{subCategory.description}}</p>
+        </main>
+
+    </div>
+    <!-- end main-container -->
+</body>
 
 </html>

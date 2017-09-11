@@ -1,40 +1,42 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <title>{{mainCategory.name}} Recipes</title>
-    </head>
-	
-	<body>
-        <header>
-            <h1>Food Catalog Project</h1>
-        </header>
-        
-        <div class = 'main-container'>
-            
-            <aside class="main-categories">
-                <h3>Food Categories</h3>
+
+<head>
+    <title>{{mainCategory.name}} Recipes</title>
+</head>
+
+<body>
+    <header>
+        <div class="header-container">
+            <h1 class="main-header">Food Catalog Project</h1>
+            <div class="login-div"><a href='{{url_for(' showLogin ')}}'>Login</a></div>
+        </div>
+    </header>
+
+    <div class='main-container'>
+
+        <aside class="main-categories">
+            <h1 class="sub-header">Food Categories</h1>
+            <div class='category-name'>
                 {% for mc in mainCategories %}
-                    <div class = 'category-name'>
-                        <a href = '{{url_for('mainCategory', mainCategory_id = mc.id)}}'>
-                            {{mc.name}} Recipes
-                        </a>
-                    </div>
+                <p><a href='{{url_for(' mainCategory ', mainCategory_id = mc.id)}}'>{{mc.name}} Recipes</a></p>
                 {% endfor %}
-            </aside>
-            
-            <main class="sub-categories">
-                
-                <h3>{{mainCategory.name}} Recipes Categories</h3>
-                <p>Description: {{mainCategory.description}}</p>
-                {% for i in subCategories %}
-                    <p>
-                        <a href = '{{url_for('subCategory', mainCategory_id = mainCategory_id, subCategory_id = i.id)}}'>       {{i.name}} Recipes
+            </div>
+        </aside>
+
+        <main class="sub-categories main-section">
+            <h3 class="sub-header">{{mainCategory.name}} Recipes Categories</h3>
+            <p class="descrip-p">Description: {{mainCategory.description}}</p>
+            {% for i in subCategories %}
+            <p>
+                <a href='{{url_for(' subCategory ', mainCategory_id = mainCategory_id, subCategory_id = i.id)}}'>       {{i.name}} Recipes
                         </a>
-                    </p>
-                {% endfor %}
-            </main>
-            
-        </div> <!-- end main-container -->
-	</body>
+            </p>
+            {% endfor %}
+        </main>
+
+    </div>
+    <!-- end main-container -->
+</body>
 
 </html>

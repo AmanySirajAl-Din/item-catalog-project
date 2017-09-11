@@ -108,3 +108,11 @@ a{
     font-size: 14px;
     color: #999;
 }
+
+#delete-a, #edit-a{
+    padding: 5px;
+}
+
+#delete-a{
+   border-left: 1px solid #d5d5d5; 
+}
