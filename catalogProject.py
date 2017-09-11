@@ -20,7 +20,7 @@ import requests
 # 4- declare CLIENT_ID
 CLIENT_ID = json.loads(
     open('client_secrets.json', 'r').read())['web']['client_id']
-APPLICATION_NAME = "Restaurant Menu Application"
+#APPLICATION_NAME = "Restaurant Menu Application"
 
 # Connect to Database and create database session
 engine = create_engine('sqlite:///foodCatalog.db')
@@ -38,6 +38,7 @@ def showLogin():
     login_session['state'] = state
     # return "The current session state is %s" % login_session['state']
     return render_template('login.html', STATE=state)
+
 
 # 5- create the server-side GConnect fun.
 @app.route('/gconnect', methods=['POST'])
@@ -88,12 +89,12 @@ def gconnect():
         print "Token's client ID does not match app's."
         response.headers['Content-Type'] = 'application/json'
         return response
-
+    
+    # check to see if user is already logged in
     stored_access_token = login_session.get('access_token')
     stored_gplus_id = login_session.get('gplus_id')
     if stored_access_token is not None and gplus_id == stored_gplus_id:
-        response = make_response(json.dumps('Current user is already connected.'),
-                                 200)
+        response = make_response(json.dumps('Current user is already connected.'), 200)
         response.headers['Content-Type'] = 'application/json'
         return response
 
