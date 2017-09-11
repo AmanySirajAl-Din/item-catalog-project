@@ -229,7 +229,6 @@ def mainCategory(mainCategory_id):
     mainCategory = session.query(MainCategory).filter_by(id=mainCategory_id).one()
     creator = getUserInfo(mainCategory.user_id)
     subCategories = session.query(SubCategory).filter_by(mainCategory_id=mainCategory_id).order_by(asc(SubCategory.name))
-<<<<<<< HEAD
     if 'username' not in login_session or creator.id != login_session['user_id']:
         return render_template('public_mainCategory', mainCategories=mainCategories, mainCategory=mainCategory, mainCategory_id=mainCategory_id, subCategories=subCategories, creator = creator)
     else:
