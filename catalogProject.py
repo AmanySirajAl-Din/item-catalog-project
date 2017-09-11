@@ -239,7 +239,7 @@ def mainCategory(mainCategory_id):
 @app.route('/categories/<int:mainCategory_id>/<int:subCategory_id>/')
 def subCategory(mainCategory_id, subCategory_id):
     mainCategories = session.query(MainCategory).order_by(asc(MainCategory.name))
-    subCategory = session.query(SubCategory).filter_by(subCategory_id=subCategory_id).one()
+    subCategory = session.query(SubCategory).filter_by(id=subCategory_id).one()
     creator = getUserInfo(subCategory.user_id)
     if 'username' not in login_session:
         return render_template('public_subCategory', mainCategories=mainCategories, subCategory_id=subCategory_id, subCategory=subCategory)
