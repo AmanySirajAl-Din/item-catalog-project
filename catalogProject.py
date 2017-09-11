@@ -1,5 +1,4 @@
-from flask import Flask, render_template, request, redirect, url_for, jsonify
-app = Flask(__name__)
+from flask import Flask, render_template, request, redirect, jsonify, flash, url_for
 
 from sqlalchemy import create_engine, asc, desc
 from sqlalchemy.orm import sessionmaker
@@ -16,6 +15,9 @@ import httplib2
 import json
 from flask import make_response
 import requests
+
+app = Flask(__name__)
+
 
 # 4- declare CLIENT_ID
 CLIENT_ID = json.loads(
