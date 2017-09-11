@@ -1,5 +1,4 @@
-from flask import Flask, render_template, request, redirect, url_for, jsonify
-app = Flask(__name__)
+from flask import Flask, render_template, request, redirect, jsonify, flash, url_for
 
 from sqlalchemy import create_engine, asc, desc
 from sqlalchemy.orm import sessionmaker
@@ -16,10 +15,14 @@ import json
 from flask import make_response
 import requests
 
+
+app = Flask(__name__)
+
+
 # declare CLIENT_ID
 CLIENT_ID = json.loads(
     open('client_secrets.json', 'r').read())['web']['client_id']
-APPLICATION_NAME = "Restaurant Menu Application"
+APPLICATION_NAME = "Item Catalog Application"
 
 engine = create_engine('sqlite:///foodCatalogWithUsers.db')
 Base.metadata.bind = engine
@@ -324,5 +327,6 @@ def deleteSubCategory(mainCategory_id, subCategory_id):
     
 
 if __name__ == '__main__':
+    app.secret_key = "IsSECRET_Amany"
     app.debug = True
     app.run(host='0.0.0.0', port=5000)

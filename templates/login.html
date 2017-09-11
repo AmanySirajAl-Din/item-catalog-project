@@ -4,32 +4,19 @@
 <head>
 
     <!--LOAD PRE-REQUISITES FOR GOOGLE SIGN IN -->
-    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js">
-
-
-    </script>
-
-    <script src="//apis.google.com/js/platform.js?onload=start">
-
-
-    </script>
-
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+    <script src="//apis.google.com/js/platform.js?onload=start" async defer></script>
     <!-- END PRE-REQUISITES FOR GOOGLE SIGN IN -->
-
 
 </head>
 
-
 <body>
-
-
     <!-- GOOGLE PLUS SIGN IN BUTTON-->
-
 
     <div id="signInButton">
         <span class="g-signin" 
               data-scope="openid email"
-              data-clientid="943572205237-edb5v1ne5a1bhnhvkt5j4nsec1gn7c2g.apps.googleusercontent.com"
+              data-clientid="1061337056118-lns3k884p96o8bl5vhhgbpidqa32j3v1.apps.googleusercontent.com"
               data-redirecturi="postmessage"
               data-accesstype="offline" 
               data-cookiepolicy="single_host_origin"
@@ -45,7 +32,7 @@
         function signInCallback(authResult) {
             if (authResult['code']) {
                 // Hide the sign-in button now that the user is authorized
-                $('#signinButton').attr('style', 'display: none');
+                $('#signInButton').css('display', 'none');
                 // Send the one-time-use code to the server, if the server responds, write a 'login successful' message to the web page and then redirect back to the main restaurants page
                 $.ajax({
                     type: 'POST',
