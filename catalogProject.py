@@ -256,9 +256,22 @@ def newSubCategory(mainCategory_id):
     if 'username' not in login_session:
         return redirect('/login')
     
-    if itemToDelete.user_id != login_session['user_id']:
-        flash ("You cannot delete this Category. This Category belongs to %s" % creator.name)
-        return redirect(url_for('catalog_latest_updates'))
+    #### still need sume edit
+'''
+    restaurant = session.query(Restaurant).filter_by(id=restaurant_id).one()
+    if login_session['user_id'] != restaurant.user_id:
+        return "<script>function myFunction() {alert('You are not authorized to add menu items to this restaurant. Please create your own restaurant in order to add items.');}</script><body onload='myFunction()''>"
+        if request.method == 'POST':
+            newItem = MenuItem(name=request.form['name'], description=request.form['description'], price=request.form[
+                               'price'], course=request.form['course'], restaurant_id=restaurant_id, user_id=restaurant.user_id)
+            session.add(newItem)
+            session.commit()
+            flash('New Menu %s Item Successfully Created' % (newItem.name))
+            return redirect(url_for('showMenu', restaurant_id=restaurant_id))
+    else:
+        return render_template('newmenuitem.html', restaurant_id=restaurant_id)
+'''
+
     
     if request.method == 'POST':
         newItem = SubCategory(name=request.form['name'], description=request.form[
@@ -280,12 +293,38 @@ def editSubCategory(mainCategory_id, subCategory_id):
     if 'username' not in login_session:
         return redirect('/login')
     
+    '''
+    editedItem = session.query(MenuItem).filter_by(id=menu_id).one()
+    restaurant = session.query(Restaurant).filter_by(id=restaurant_id).one()
+    if login_session['user_id'] != restaurant.user_id:
+        return "<script>function myFunction() {alert('You are not authorized to edit menu items to this restaurant. Please create your own restaurant in order to edit items.');}</script><body onload='myFunction()''>"
+    if request.method == 'POST':
+        if request.form['name']:
+            editedItem.name = request.form['name']
+        if request.form['description']:
+            editedItem.description = request.form['description']
+        if request.form['price']:
+            editedItem.price = request.form['price']
+        if request.form['course']:
+            editedItem.course = request.form['course']
+        session.add(editedItem)
+        session.commit()
+        flash('Menu Item Successfully Edited')
+        return redirect(url_for('showMenu', restaurant_id=restaurant_id))
+    else:
+        return render_template('editmenuitem.html', restaurant_id=restaurant_id, menu_id=menu_id, item=editedItem)
+    '''
+    
     if itemToDelete.user_id != login_session['user_id']:
         flash ("You cannot delete this Category. This Category belongs to %s" % creator.name)
         return redirect(url_for('catalog_latest_updates'))
     
     editedItem = session.query(SubCategory).filter_by(id=subCategory_id).one()
     editedItemName = editedItem.name
+    
+    if login_session['user_id'] != itemToDelete.user_id:
+        return "<script>function myFunction() {alert('You are not authorized to edit this sub category. Please create your own sub category in order to edit items.');}</script><body onload='myFunction()''>"
+    
     if request.method == 'POST':
         if request.form['name']:
             editedItem.name = request.form['name']
@@ -309,12 +348,25 @@ def deleteSubCategory(mainCategory_id, subCategory_id):
     if 'username' not in login_session:
         return redirect('/login')
     
-    if itemToDelete.user_id != login_session['user_id']:
-        flash ("You cannot delete this Category. This Category belongs to %s" % creator.name)
-        return redirect(url_for('catalog_latest_updates'))
-    
+    '''
+    restaurant = session.query(Restaurant).filter_by(id=restaurant_id).one()
+    itemToDelete = session.query(MenuItem).filter_by(id=menu_id).one()
+    if login_session['user_id'] != restaurant.user_id:
+        return "<script>function myFunction() {alert('You are not authorized to delete menu items to this restaurant. Please create your own restaurant in order to delete items.');}</script><body onload='myFunction()''>"
+    if request.method == 'POST':
+        session.delete(itemToDelete)
+        session.commit()
+        flash('Menu Item Successfully Deleted')
+        return redirect(url_for('showMenu', restaurant_id=restaurant_id))
+    else:
+        return render_template('deleteMenuItem.html', item=itemToDelete)
+    '''
     itemToDelete = session.query(MenuItem).filter_by(id=subCategory_id).one()
     itemToDeleteName = itemToDelete.name
+    
+    if login_session['user_id'] != itemToDelete.user_id:
+        return "<script>function myFunction() {alert('You are not authorized to delete this sub category. Please create your own sub category in order to delete items.');}</script><body onload='myFunction()''>"
+    
     if request.method == 'POST':
         session.delete(itemToDelete)
         session.commit()
