@@ -49,16 +49,15 @@ def catalog_latest_updates():
 def mainCategory(mainCategory_id):
     mainCategories = session.query(MainCategory).order_by(asc(MainCategory.name))
     mainCategory = session.query(MainCategory).filter_by(id=mainCategory_id).one()
-    subCategories = session.query(SubCategory).filter_by(mainCategory_id=mainCategory_id).order_by(asc(SubCategory.name))
-    return render_template(
-        'food_main_category.html', mainCategory=mainCategory, mainCategory_id=mainCategory_id, subCategories=subCategories)
+    subCategories = session.query(SubCategory).filter_by(mainCategory_id=mainCategory_id)
+    return render_template('food_main_category.html', mainCategory=mainCategory, mainCategory_id=mainCategory_id, subCategories=subCategories)
 
 
 # sub category
 @app.route('/categories/<int:mainCategory_id>/<int:subCategory_id>/')
 def subCategory(mainCategory_id, subCategory_id):
     mainCategories = session.query(MainCategory).order_by(asc(MainCategory.name))
-    subCategory = session.query(SubCategory).filter_by(subCategory_id=subCategory_id).one()
+    subCategory = session.query(SubCategory).filter_by(id=subCategory_id).one()
     return render_template('food_sub_category.html', subCategory_id=subCategory_id, subCategory=subCategory)
 
 
