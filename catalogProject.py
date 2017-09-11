@@ -23,13 +23,6 @@ CLIENT_ID = json.loads(
 APPLICATION_NAME = "item catalog app"
 
 # Connect to Database and create database session
-engine = create_engine('sqlite:///foodCatalog.db')
-Base.metadata.bind = engine
-
-DBSession = sessionmaker(bind=engine)
-session = DBSession()
-
-# Connect to Database and create database session
 engine = create_engine('sqlite:///restaurantmenu.db')
 Base.metadata.bind = engine
 
