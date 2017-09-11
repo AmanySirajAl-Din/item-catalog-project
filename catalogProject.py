@@ -20,7 +20,7 @@ import requests
 # 4- declare CLIENT_ID
 CLIENT_ID = json.loads(
     open('client_secrets.json', 'r').read())['web']['client_id']
-APPLICATION_NAME = "item catalog app"
+APPLICATION_NAME = "Item Catalog Application"
 
 # Connect to Database and create database session
 engine = create_engine('sqlite:///foodCatalog.db')
