@@ -55,7 +55,6 @@ a{
     margin: 16px 0;
     padding: 5px 17px 8px 17px;
     background-color: #80314c;
-    color: #fff;
     border: 1px solid #80314c;
     border-radius: 5px;
     font-size: larger;
@@ -64,6 +63,10 @@ a{
 
 .login-div:hover{
     background-color: #a28632 !important;
+}
+
+.login-div a{
+    color: #fff;
 }
 
 .main-container{
@@ -99,4 +102,3 @@ a{
     font-size: 14px;
     color: #999;
 }
-
