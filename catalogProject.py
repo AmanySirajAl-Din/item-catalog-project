@@ -334,8 +334,8 @@ def disconnect():
     if 'provider' in login_session:
         if login_session['provider'] == 'google':
                 gdisconnect()
-                del login_session['access_token']
                 del login_session['gplus_id']
+                del login_session['credentials']
         del login_session['username']
         del login_session['email']
         del login_session['picture']
