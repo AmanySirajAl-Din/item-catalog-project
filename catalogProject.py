@@ -185,7 +185,9 @@ def gdisconnect():
     else:
         response = make_response(json.dumps('Failed to revoke token for given user.', 400))
         response.headers['Content-Type'] = 'application/json'
-        return response    
+        return response
+
+    
     
 # JSON APIs to view main categories Information
 @app.route('/categories/maincategories/JSON/')
