@@ -113,9 +113,11 @@ def gconnect():
     login_session['username'] = data['name']
     login_session['picture'] = data['picture']
     login_session['email'] = data['email']
-    
-    # ** See if a user exists, if it doesn't make a new one **
-    user_id = getUserID(login_session['email'])
+    # ADD PROVIDER TO LOGIN SESSION
+    login_session['provider'] = 'google'
+
+    # see if user exists, if it doesn't make a new one
+    user_id = getUserID(data["email"])
     if not user_id:
         user_id = createUser(login_session)
     login_session['user_id'] = user_id
@@ -127,12 +129,13 @@ def gconnect():
     output += '<img src="'
     output += login_session['picture']
     output += ' " style = "width: 300px; height: 300px;border-radius: 150px;-webkit-border-radius: 150px;-moz-border-radius: 150px;"> '
-    flash("You are now logged in as %s" % login_session['username'])
+    flash("you are now logged in as %s" % login_session['username'])
     print "done!"
     return output
     
     
-# User Helper Functions
+#User Helper Functions
+
 def createUser(login_session):
     newUser = User(name=login_session['username'], email=login_session[
                    'email'], picture=login_session['picture'])
@@ -153,26 +156,23 @@ def getUserID(email):
         return user.id
     except:
         return None
+
     
     
     
 # DISCONNECT - Revoke a current user's token and reset their login_session
 @app.route('/gdisconnect')
 def gdisconnect():
+    # Only disconnect a connected user.
     access_token = login_session.get('access_token')
     if access_token is None:
-        print 'Access Token is None'
-        response = make_response(json.dumps('Current user not connected.'), 401)
+        response = make_response(
+            json.dumps('Current user not connected.'), 401)
         response.headers['Content-Type'] = 'application/json'
         return response
-    print 'In gdisconnect access token is %s', access_token
-    print 'User name is: '
-    print login_session['username']
-    url = 'https://accounts.google.com/o/oauth2/revoke?token=%s' % login_session['access_token']
+    url = 'https://accounts.google.com/o/oauth2/revoke?token=%s' % access_token
     h = httplib2.Http()
     result = h.request(url, 'GET')[0]
-    print 'result is '
-    print result
     if result['status'] == '200':
         del login_session['access_token']
         del login_session['gplus_id']
@@ -189,7 +189,7 @@ def gdisconnect():
 
     
     
-# JSON APIs to view Restaurant Information
+# JSON APIs to view main categories Information
 @app.route('/categories/maincategories/JSON/')
 def CategoriesJSON():
     mainCategories = session.query(MainCategory).all()
@@ -205,7 +205,7 @@ def mainCategoryJSON(mainCategory_id):
 
 
 # ADD JSON ENDPOINT HERE
-@app.route('/categories/<int:restaurant_id>/subcategories/JSON/')
+@app.route('/categories/<int:mainCategory_id>/subcategories/JSON/')
 def subCategoryJSON(mainCategory_id, subCategory_id):
     subCategory = session.query(SubCategory).filter_by(id=subCategory_id).one()
     return jsonify(SubCategory=subCategory.serialize)
@@ -213,8 +213,8 @@ def subCategoryJSON(mainCategory_id, subCategory_id):
 
 # main categories & latest updates
 @app.route('/')
-@app.route('/latest_updates')
-@app.route('/categories')
+@app.route('/latest_updates/')
+@app.route('/categories/')
 def catalog_latest_updates():
     mainCategories = session.query(MainCategory).order_by(asc(MainCategory.name))
     latestItems = session.query(SubCategory).order_by(desc(SubCategory.id)).limit(7)
@@ -326,6 +326,29 @@ def deleteSubCategory(mainCategory_id, subCategory_id):
         return redirect(url_for('mainCategory', mainCategory_id=mainCategory_id))
     else:
         return render_template('delete_subCategory.html', item=itemToDelete)
+    
+
+# Disconnect based on provider
+@app.route('/disconnect')
+def disconnect():
+    if 'provider' in login_session:
+        #if login_session['provider'] == 'google':
+        gdisconnect()
+        del login_session['gplus_id']
+        del login_session['credentials']
+        #if login_session['provider'] == 'facebook':
+            #fbdisconnect()
+            #del login_session['facebook_id']
+        del login_session['username']
+        del login_session['email']
+        del login_session['picture']
+        del login_session['user_id']
+        del login_session['provider']
+        flash("You have successfully been logged out.")
+        return redirect(url_for('catalog_latest_updates'))
+    else:
+        flash("You were not logged in")
+        return redirect(url_for('catalog_latest_updates'))
     
 
 if __name__ == '__main__':
