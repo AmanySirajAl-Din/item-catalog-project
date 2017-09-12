@@ -1,43 +1,19 @@
-<!DOCTYPE html>
-<html>
-    <head>
-        <title>{{mainCategory.name}} Recipes</title>
-        <link type="text/css" rel="stylesheet" href="../static/styles.css"/>
-    </head>
-	
-	<body>
-        <header>
-            <div class="header-container">
-                <h1 class="main-header">Food Catalog Project</h1>
-                <div class="login-div">Login</div>
-            </div>
-        </header>
-
-        <div class='main-container'>
-
-            <aside class="main-categories">
-                <h3 class="sub-header">Food Categories</h3>
-                {% for mc in mainCategories %}
-                <div class='category-name'>
-                    <a href='{{url_for('mainCategory', mainCategory_id = mc.id)}}'>{{mc.name}} Recipes</a>
-                </div>
-                {% endfor %}
-            </aside>
+{% extends "main.html" %}
+{% block content %}            
             
-            <main class="sub-category-item">
-                <h3> Are you sure you want to delete {{item.name}}? </h3>
+    {% include "return-to-home.html" %}
 
-                <form action="{{ url_for('delete_subCategory',mainCategory_id = item.mainCategory_id, subCategory_id=item.id)}}" method = 'post'>
+    <main class="sub-category-item">
+        <h2> Are you sure you want to delete {{item.name}}? </h2>
 
-                    <input type='submit', value = 'Delete'>
+        <form action="{{url_for('deleteSubCategory', mainCategory_id = item.mainCategory_id, subCategory_id=item.id)}}" method = 'post'>
 
-                </form>
+            <input type='submit', value = 'Delete'>
 
-                <a href = '{{url_for('catalog_latest_updates')}}'> Cancel </a>
+        </form>
 
-            </main>
-            
-        </div> <!-- end main-container -->
-	</body>
+        <p><a href = '{{url_for('subCategory', mainCategory_id = item.mainCategory_id, subCategory_id=item.id)}}'> Cancel </a></p>
 
-</html>
+    </main>
+
+{% endblock %}

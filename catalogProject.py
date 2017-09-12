@@ -2,13 +2,12 @@ from flask import Flask, render_template, request, redirect, jsonify, flash, url
 
 from sqlalchemy import create_engine, asc, desc
 from sqlalchemy.orm import sessionmaker
-from database_setup import MainCategory, Base, SubCategory
+# ** import the tables from the new DB **
+from database_setup_withusers import MainCategory, Base, SubCategory, User
 
-#1- NEW imports
 from flask import session as login_session
 import random, string
 
-# 3- imports for Gconnect method
 from oauth2client.client import flow_from_clientsecrets
 from oauth2client.client import FlowExchangeError
 import httplib2
@@ -16,16 +15,16 @@ import json
 from flask import make_response
 import requests
 
+
 app = Flask(__name__)
 
 
-# 4- declare CLIENT_ID
+# declare CLIENT_ID
 CLIENT_ID = json.loads(
     open('client_secrets.json', 'r').read())['web']['client_id']
 APPLICATION_NAME = "Item Catalog Application"
 
-# Connect to Database and create database session
-engine = create_engine('sqlite:///foodCatalog.db')
+engine = create_engine('sqlite:///foodCatalogWithUsers.db')
 Base.metadata.bind = engine
 
 DBSession = sessionmaker(bind=engine)
@@ -42,6 +41,7 @@ def showLogin():
     return render_template('login.html', STATE=state)
 
 
+# create the server-side GConnect fun.
 @app.route('/gconnect', methods=['POST'])
 def gconnect():
     # Validate state token
@@ -113,6 +113,12 @@ def gconnect():
     login_session['username'] = data['name']
     login_session['picture'] = data['picture']
     login_session['email'] = data['email']
+    
+    # ** See if a user exists, if it doesn't make a new one **
+    user_id = getUserID(login_session['email'])
+    if not user_id:
+        user_id = createUser(login_session)
+    login_session['user_id'] = user_id
 
     output = ''
     output += '<h1>Welcome, '
@@ -121,9 +127,32 @@ def gconnect():
     output += '<img src="'
     output += login_session['picture']
     output += ' " style = "width: 300px; height: 300px;border-radius: 150px;-webkit-border-radius: 150px;-moz-border-radius: 150px;"> '
-    flash("you are now logged in as %s" % login_session['username'])
+    flash("You are now logged in as %s" % login_session['username'])
     print "done!"
     return output
+    
+    
+# User Helper Functions
+def createUser(login_session):
+    newUser = User(name=login_session['username'], email=login_session[
+                   'email'], picture=login_session['picture'])
+    session.add(newUser)
+    session.commit()
+    user = session.query(User).filter_by(email=login_session['email']).one()
+    return user.id
+
+
+def getUserInfo(user_id):
+    user = session.query(User).filter_by(id=user_id).one()
+    return user
+
+
+def getUserID(email):
+    try:
+        user = session.query(User).filter_by(email=email).one()
+        return user.id
+    except:
+        return None
     
     
     
@@ -184,9 +213,8 @@ def subCategoryJSON(mainCategory_id, subCategory_id):
 
 # main categories & latest updates
 @app.route('/')
-@app.route('/latest_updates/')
-@app.route('/index/')
-@app.route('/categories/')
+@app.route('/latest_updates')
+@app.route('/categories')
 def catalog_latest_updates():
     mainCategories = session.query(MainCategory).order_by(asc(MainCategory.name))
     latestItems = session.query(SubCategory).order_by(desc(SubCategory.id)).limit(7)
@@ -199,9 +227,12 @@ def catalog_latest_updates():
 def mainCategory(mainCategory_id):
     mainCategories = session.query(MainCategory).order_by(asc(MainCategory.name))
     mainCategory = session.query(MainCategory).filter_by(id=mainCategory_id).one()
+    creator = getUserInfo(mainCategory.user_id)
     subCategories = session.query(SubCategory).filter_by(mainCategory_id=mainCategory_id).order_by(asc(SubCategory.name))
-    return render_template(
-        'food_main_category.html', mainCategories=mainCategories, mainCategory=mainCategory, mainCategory_id=mainCategory_id, subCategories=subCategories)
+    if 'username' not in login_session:
+        return render_template('public_mainCategory', mainCategories=mainCategories, mainCategory=mainCategory, mainCategory_id=mainCategory_id, subCategories=subCategories, creator=creator)
+    else:
+        return render_template('private_mainCategory.html', mainCategories=mainCategories, mainCategory=mainCategory, mainCategory_id=mainCategory_id, subCategories=subCategories, creator=creator)
 
 
 # sub category
@@ -209,7 +240,11 @@ def mainCategory(mainCategory_id):
 def subCategory(mainCategory_id, subCategory_id):
     mainCategories = session.query(MainCategory).order_by(asc(MainCategory.name))
     subCategory = session.query(SubCategory).filter_by(id=subCategory_id).one()
-    return render_template('food_sub_category.html', subCategory_id=subCategory_id, subCategory=subCategory)
+    creator = getUserInfo(subCategory.user_id)
+    if 'username' not in login_session:
+        return render_template('public_subCategory', mainCategories=mainCategories, subCategory_id=subCategory_id, subCategory=subCategory)
+    else:
+        return render_template('private_subCategory.html', mainCategories=mainCategories, subCategory_id=subCategory_id, subCategory=subCategory)
 
 
 # add new sub category
@@ -221,15 +256,18 @@ def newSubCategory(mainCategory_id):
     if 'username' not in login_session:
         return redirect('/login')
     
+    mainCategories = session.query(MainCategory).order_by(asc(MainCategory.name))
     if request.method == 'POST':
-        newItem = SubCategory(name=request.form['name'], description=request.form[
-                           'description'], mainCategory_id=mainCategory_id)
+        newItem = SubCategory(name=request.form['name'],
+                              description=request.form['description'],
+                              mainCategory_id=mainCategory_id,
+                              user_id=login_session['user_id'])
         session.add(newItem)
         session.commit()
-        flash("New food sub category item created!")
-        return redirect(url_for('catalog_latest_updates'))
+        flash('%s Recipes Successfully Created' % (newItem.name))
+        return redirect(url_for('mainCategory', mainCategory_id=mainCategory_id))
     else:
-        return render_template('new_subCtegory.html', mainCategory_id=mainCategory_id)
+        return render_template('new_subCtegory.html', mainCategory_id=mainCategory_id, mainCategories=mainCategories)
 
 
 # edit sub category
@@ -241,8 +279,15 @@ def editSubCategory(mainCategory_id, subCategory_id):
     if 'username' not in login_session:
         return redirect('/login')
     
+    mainCategories = session.query(MainCategory).order_by(asc(MainCategory.name))
     editedItem = session.query(SubCategory).filter_by(id=subCategory_id).one()
     editedItemName = editedItem.name
+    
+    if login_session['user_id'] != editedItem.user_id:
+        flash("You are not authorized to edit this sub category.")
+        flash("Please create your own sub category in order to edit items.")
+        return redirect(url_for('subCategory', mainCategory_id=mainCategory_id, subCategory_id=subCategory_id))
+    
     if request.method == 'POST':
         if request.form['name']:
             editedItem.name = request.form['name']
@@ -250,11 +295,11 @@ def editSubCategory(mainCategory_id, subCategory_id):
             editedItem.description = request.form['description']
         session.add(editedItem)
         session.commit()
-        flash("The " + editedItemName + " (food sub category) has been edited")
-        return redirect(url_for('catalog_latest_updates'))
+        flash(editedItemName + " Recipes has been edited")
+        return redirect(url_for('subCategory', mainCategory_id=mainCategory_id, subCategory_id=subCategory_id))
     else:
         return render_template(
-            'edit_subCategory.html', mainCategory_id=mainCategory_id, subCategory_id=subCategory_id, item=editedItem)
+            'edit_subCategory.html', mainCategory_id=mainCategory_id, subCategory_id=subCategory_id, item=editedItem, mainCategories=mainCategories)
     
     
 # delete sub category
@@ -266,16 +311,21 @@ def deleteSubCategory(mainCategory_id, subCategory_id):
     if 'username' not in login_session:
         return redirect('/login')
     
-    itemToDelete = session.query(MenuItem).filter_by(id=subCategory_id).one()
+    itemToDelete = session.query(SubCategory).filter_by(id=subCategory_id).one()
     itemToDeleteName = itemToDelete.name
+    
+    if login_session['user_id'] != itemToDelete.user_id:
+        flash("You are not authorized to delete this sub category.")
+        flash("Please create your own sub category in order to delete items.")
+        return redirect(url_for('subCategory', mainCategory_id=mainCategory_id, subCategory_id=subCategory_id))
+    
     if request.method == 'POST':
         session.delete(itemToDelete)
         session.commit()
         flash("The " + itemToDeleteName + " (food sub category) has been deleted")
-        return redirect(url_for('catalog_latest_updates'))
+        return redirect(url_for('mainCategory', mainCategory_id=mainCategory_id))
     else:
-        return render_template(
-            'delete_subCategory.html', mainCategory_id=mainCategory_id, subCategory_id=subCategory_id, item=itemToDelete)
+        return render_template('delete_subCategory.html', item=itemToDelete)
     
 
 if __name__ == '__main__':

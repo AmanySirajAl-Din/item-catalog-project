@@ -1,53 +1,33 @@
-<!DOCTYPE html>
-<html>
-    <head>
-        <title>{{mainCategory.name}} Recipes</title>
-        <link type="text/css" rel="stylesheet" href="../static/styles.css"/>
-    </head>
-	
-	<body>
-        <header>
-            <div class="header-container">
-                <h1 class="main-header">Food Catalog Project</h1>
-                <div class="login-div">Login</div>
-            </div>
-        </header>
-
-        <div class='main-container'>
-
-            <aside class="main-categories">
-                <h3 class="sub-header">Food Categories</h3>
-                {% for mc in mainCategories %}
-                <div class='category-name'>
-                    <a href='{{url_for('mainCategory', mainCategory_id = mc.id)}}'>{{mc.name}} Recipes</a>
-                </div>
-                {% endfor %}
-            </aside>
+{% extends "main.html" %}
+{% block content %}            
             
-            <main class="sub-category-item">
-                <h3>New Food Sub Category</h3>
-                <form action="{{ url_for('newMenuItem', restaurant_id=restaurant_id )}}" method = 'post'>
-                    <dl>
-                        <dt>Name:</dt>
-                            <dd><input type ='text' size='30' name='name' required></dd>
-                        <dt>Description:</dt>
-                            <dd><textarea name = 'description' rows='5' cols='40' required></textarea></dd>
-                        <dt>Food Main Category:</dt>
-                            <dd>
-                                <select class="mainCategories-select">
-                                    {% for mcs in mainCategories %}
-                                        <option value="{{mcs.name}}">{{mcs.name}}</option>
-                                    {% endfor %}
-                                </select>
-                            </dd>
-                    </dl>
+    {% include "return-to-home.html" %}
 
-                    <input type='submit' value='Create'>
+    <main class="sub-category-item">
+        <h1 class="sub-header">New Food Sub Category</h1>
+        <form action="{{ url_for('editSubCategory', mainCategory_id=mainCategory_id, subCategory_id=subCategory_id)}}" method = 'post'>
+            <dl>
+                <dt>Name:</dt>
+                    <dd><input type ='text' size='30' name='name' required value="{{item.name}}"></dd>
+                <dt>Description:</dt>
+                    <dd><textarea name = 'description' rows='5' cols='40' required value="{{item.description}}">{{item.description}}</textarea></dd>
+                <dt>Food Main Category:</dt>
+                    <dd>
+                        <select class="mainCategories-select">
+                            {% for mcs in mainCategories %}
+                                {% if mcs.id == mainCategory_id %}
+                                    <option value="{{mcs.name}}" selected>{{mcs.name}}</option>
+                                {% else %}
+                                    <option value="{{mcs.name}}">{{mcs.name}}</option>
+                                {% endif %}
+                            {% endfor %}
+                        </select>
+                    </dd>
+            </dl>
 
-                    </form>
-            </main>
-            
-        </div> <!-- end main-container -->
-	</body>
+            <input type='submit' value='Edit'>
 
-</html>
+            </form>
+    </main>
+
+{% endblock %}
