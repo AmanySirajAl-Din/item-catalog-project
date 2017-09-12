@@ -13,8 +13,28 @@
             <div class="login-div"><a href='{{url_for('showLogin')}}'>Login</a></div>
         </div>
     </header>
+    
+    <div class = 'flash'>
+          {% with messages = get_flashed_messages() %}
+          {% if messages %}
+
+            <ul>
+            {% for message in messages %}
+                <li> <strong> {{ message }} </strong> </li>
+            {% endfor %}
+            </ul>
+            {% endif %}
+        {% endwith %}
+
+    </div>
 
     <div class='main-container'>
+        
+        <div class="return-to-home">
+                <a href='{{url_for('catalog_latest_updates')}}'>
+                    Return To Main Page
+                </a>
+        </div>
 
         <aside class="main-categories">
             <h1 class="sub-header">Food Categories</h1>
@@ -26,7 +46,7 @@
         </aside>
 
         <main class="sub-category-item main-section">
-            <h3>{{subCategory.name}} Recipes</h3>
+            <h1 class="sub-header">{{subCategory.name}} Recipes</h1>
             <p class="descrip-p">Description: {{subCategory.description}}</p>
             <div class="edit-delete-div">
                 <a id="edit-a" href='{{url_for('editSubCategory', mainCategory_id = subCategory.category.id, subCategory_id = subCategory.id, item = subCategory)}}'>Edit</a>

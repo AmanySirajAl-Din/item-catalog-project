@@ -26,6 +26,12 @@
         </aside>
 
         <main class="sub-category-item main-section">
+            <div class="return-to-home">
+                <a href='{{url_for('catalog_latest_updates')}}'>
+                    Return To Main Page
+                </a>
+            </div>
+            
             <h1 class="sub-header">{{subCategory.name}} Recipes</h1>
             <p class="descrip-p">Description: {{subCategory.description}}</p>
         </main>
