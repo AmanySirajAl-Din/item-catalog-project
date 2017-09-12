@@ -309,7 +309,7 @@ def deleteSubCategory(mainCategory_id, subCategory_id):
     if 'username' not in login_session:
         return redirect('/login')
     
-    itemToDelete = session.query(MenuItem).filter_by(id=subCategory_id).one()
+    itemToDelete = session.query(SubCategory).filter_by(id=subCategory_id).one()
     itemToDeleteName = itemToDelete.name
     
     if login_session['user_id'] != itemToDelete.user_id:
@@ -319,7 +319,7 @@ def deleteSubCategory(mainCategory_id, subCategory_id):
         session.delete(itemToDelete)
         session.commit()
         flash("The " + itemToDeleteName + " (food sub category) has been deleted")
-        return redirect(url_for('subCategory', mainCategory_id=mainCategory_id, subCategory_id=subCategory_id))
+        return redirect(url_for('mainCategory', mainCategory_id=mainCategory_id))
     else:
         return render_template('delete_subCategory.html', item=itemToDelete)
     

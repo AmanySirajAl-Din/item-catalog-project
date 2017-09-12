@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>{{mainCategory.name}} Recipes</title>
+        <title>{{item.category.name}} Recipes</title>
         <link type="text/css" rel="stylesheet" href="/static/styles.css"/>
     </head>
 	
@@ -22,7 +22,7 @@
             </div>
 
             <aside class="main-categories">
-                <h3 class="sub-header">Food Categories</h3>
+                <h1 class="sub-header">Food Categories</h1>
                 {% for mc in mainCategories %}
                 <div class='category-name'>
                     <a href='{{url_for('mainCategory', mainCategory_id = mc.id)}}'>{{mc.name}} Recipes</a>
@@ -38,8 +38,8 @@
                     <input type='submit', value = 'Delete'>
 
                 </form>
-
-                <a href = '{{url_for('SubCategory', mainCategory_id = item.mainCategory_id, subCategory_id=item.id)}}' style="text-decoration: underline;"> Cancel </a>
+                
+                <p><a href = '{{url_for('subCategory', mainCategory_id = item.mainCategory_id, subCategory_id=item.id)}}'> Cancel </a></p>
 
             </main>
             
