@@ -279,36 +279,11 @@ def editSubCategory(mainCategory_id, subCategory_id):
     if 'username' not in login_session:
         return redirect('/login')
     
-    '''
-    editedItem = session.query(MenuItem).filter_by(id=menu_id).one()
-    restaurant = session.query(Restaurant).filter_by(id=restaurant_id).one()
-    if login_session['user_id'] != restaurant.user_id:
-        return "<script>function myFunction() {alert('You are not authorized to edit menu items to this restaurant. Please create your own restaurant in order to edit items.');}</script><body onload='myFunction()''>"
-    if request.method == 'POST':
-        if request.form['name']:
-            editedItem.name = request.form['name']
-        if request.form['description']:
-            editedItem.description = request.form['description']
-        if request.form['price']:
-            editedItem.price = request.form['price']
-        if request.form['course']:
-            editedItem.course = request.form['course']
-        session.add(editedItem)
-        session.commit()
-        flash('Menu Item Successfully Edited')
-        return redirect(url_for('showMenu', restaurant_id=restaurant_id))
-    else:
-        return render_template('editmenuitem.html', restaurant_id=restaurant_id, menu_id=menu_id, item=editedItem)
-    '''
-    
-    if itemToDelete.user_id != login_session['user_id']:
-        flash ("You cannot delete this Category. This Category belongs to %s" % creator.name)
-        return redirect(url_for('catalog_latest_updates'))
-    
+    mainCategories = session.query(MainCategory).order_by(asc(MainCategory.name))
     editedItem = session.query(SubCategory).filter_by(id=subCategory_id).one()
     editedItemName = editedItem.name
     
-    if login_session['user_id'] != itemToDelete.user_id:
+    if login_session['user_id'] != editedItem.user_id:
         return "<script>function myFunction() {alert('You are not authorized to edit this sub category. Please create your own sub category in order to edit items.');}</script><body onload='myFunction()''>"
     
     if request.method == 'POST':
@@ -318,11 +293,11 @@ def editSubCategory(mainCategory_id, subCategory_id):
             editedItem.description = request.form['description']
         session.add(editedItem)
         session.commit()
-        flash("The " + editedItemName + " (food sub category) has been edited")
-        return redirect(url_for('catalog_latest_updates'))
+        flash(editedItemName + " Recipes has been edited")
+        return redirect(url_for('subCategory', mainCategory_id=mainCategory_id, subCategory_id=subCategory_id))
     else:
         return render_template(
-            'edit_subCategory.html', mainCategory_id=mainCategory_id, subCategory_id=subCategory_id, item=editedItem)
+            'edit_subCategory.html', mainCategory_id=mainCategory_id, subCategory_id=subCategory_id, item=editedItem, mainCategories=mainCategories)
     
     
 # delete sub category
@@ -334,19 +309,6 @@ def deleteSubCategory(mainCategory_id, subCategory_id):
     if 'username' not in login_session:
         return redirect('/login')
     
-    '''
-    restaurant = session.query(Restaurant).filter_by(id=restaurant_id).one()
-    itemToDelete = session.query(MenuItem).filter_by(id=menu_id).one()
-    if login_session['user_id'] != restaurant.user_id:
-        return "<script>function myFunction() {alert('You are not authorized to delete menu items to this restaurant. Please create your own restaurant in order to delete items.');}</script><body onload='myFunction()''>"
-    if request.method == 'POST':
-        session.delete(itemToDelete)
-        session.commit()
-        flash('Menu Item Successfully Deleted')
-        return redirect(url_for('showMenu', restaurant_id=restaurant_id))
-    else:
-        return render_template('deleteMenuItem.html', item=itemToDelete)
-    '''
     itemToDelete = session.query(MenuItem).filter_by(id=subCategory_id).one()
     itemToDeleteName = itemToDelete.name
     
@@ -357,10 +319,9 @@ def deleteSubCategory(mainCategory_id, subCategory_id):
         session.delete(itemToDelete)
         session.commit()
         flash("The " + itemToDeleteName + " (food sub category) has been deleted")
-        return redirect(url_for('catalog_latest_updates'))
+        return redirect(url_for('subCategory', mainCategory_id=mainCategory_id, subCategory_id=subCategory_id))
     else:
-        return render_template(
-            'delete_subCategory.html', mainCategory_id=mainCategory_id, subCategory_id=subCategory_id, item=itemToDelete)
+        return render_template('delete_subCategory.html', item=itemToDelete)
     
 
 if __name__ == '__main__':
