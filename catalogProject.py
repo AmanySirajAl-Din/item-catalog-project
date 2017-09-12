@@ -329,11 +329,10 @@ def deleteSubCategory(mainCategory_id, subCategory_id):
     
 
 # Disconnect based on provider
-@app.route('/disconnect')
+@app.route('/disconnect/')
 def disconnect():
     if 'provider' in login_session:
         if login_session['provider'] == 'google':
-            gdisconnect()
             del login_session['gplus_id']
             del login_session['access_token']
         del login_session['username']
