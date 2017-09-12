@@ -127,7 +127,7 @@ def gconnect():
     output += '<img src="'
     output += login_session['picture']
     output += ' " style = "width: 300px; height: 300px;border-radius: 150px;-webkit-border-radius: 150px;-moz-border-radius: 150px;"> '
-    flash("you are now logged in as %s" % login_session['username'])
+    flash("You are now logged in as %s" % login_session['username'])
     print "done!"
     return output
     
@@ -229,10 +229,10 @@ def mainCategory(mainCategory_id):
     mainCategory = session.query(MainCategory).filter_by(id=mainCategory_id).one()
     creator = getUserInfo(mainCategory.user_id)
     subCategories = session.query(SubCategory).filter_by(mainCategory_id=mainCategory_id).order_by(asc(SubCategory.name))
-    if 'username' not in login_session or creator.id != login_session['user_id']:
-        return render_template('public_mainCategory', mainCategories=mainCategories, mainCategory=mainCategory, mainCategory_id=mainCategory_id, subCategories=subCategories, creator = creator)
+    if 'username' not in login_session:
+        return render_template('public_mainCategory', mainCategories=mainCategories, mainCategory=mainCategory, mainCategory_id=mainCategory_id, subCategories=subCategories, creator=creator)
     else:
-        return render_template('private_mainCategory.html', mainCategories=mainCategories, mainCategory=mainCategory, mainCategory_id=mainCategory_id, subCategories=subCategories, creator = creator)
+        return render_template('private_mainCategory.html', mainCategories=mainCategories, mainCategory=mainCategory, mainCategory_id=mainCategory_id, subCategories=subCategories, creator=creator)
 
 
 # sub category
@@ -256,32 +256,18 @@ def newSubCategory(mainCategory_id):
     if 'username' not in login_session:
         return redirect('/login')
     
-    #### still need sume edit
-'''
-    restaurant = session.query(Restaurant).filter_by(id=restaurant_id).one()
-    if login_session['user_id'] != restaurant.user_id:
-        return "<script>function myFunction() {alert('You are not authorized to add menu items to this restaurant. Please create your own restaurant in order to add items.');}</script><body onload='myFunction()''>"
-        if request.method == 'POST':
-            newItem = MenuItem(name=request.form['name'], description=request.form['description'], price=request.form[
-                               'price'], course=request.form['course'], restaurant_id=restaurant_id, user_id=restaurant.user_id)
-            session.add(newItem)
-            session.commit()
-            flash('New Menu %s Item Successfully Created' % (newItem.name))
-            return redirect(url_for('showMenu', restaurant_id=restaurant_id))
-    else:
-        return render_template('newmenuitem.html', restaurant_id=restaurant_id)
-'''
-
-    
+    mainCategories = session.query(MainCategory).order_by(asc(MainCategory.name))
     if request.method == 'POST':
-        newItem = SubCategory(name=request.form['name'], description=request.form[
-                           'description'], mainCategory_id=mainCategory_id, user_id=login_session['user_id'])
+        newItem = SubCategory(name=request.form['name'],
+                              description=request.form['description'],
+                              mainCategory_id=mainCategory_id,
+                              user_id=login_session['user_id'])
         session.add(newItem)
         session.commit()
-        flash("New food sub category item created!")
-        return redirect(url_for('catalog_latest_updates'))
+        flash('%s Recipes Successfully Created' % (newItem.name))
+        return redirect(url_for('mainCategory', mainCategory_id=mainCategory_id))
     else:
-        return render_template('new_subCtegory.html', mainCategory_id=mainCategory_id)
+        return render_template('new_subCtegory.html', mainCategory_id=mainCategory_id, mainCategories=mainCategories)
 
 
 # edit sub category

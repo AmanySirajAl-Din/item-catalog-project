@@ -15,6 +15,20 @@
     </header>
 
     <div class='main-container'>
+        
+        <div class = 'flash'>
+		      {% with messages = get_flashed_messages() %}
+              {% if messages %}
+
+                <ul>
+                {% for message in messages %}
+                    <li> <strong> {{ message }} </strong> </li>
+                {% endfor %}
+                </ul>
+                {% endif %}
+            {% endwith %}
+
+        </div>
 
         <aside class="main-categories">
             <h1 class="sub-header">Food Categories</h1>
@@ -26,7 +40,7 @@
         </aside>
 
         <main class="sub-categories main-section">
-            <h3 class="sub-header">{{mainCategory.name}} Recipes Categories</h3>
+            <h1 class="sub-header">{{mainCategory.name}} Recipes Categories</h1>
             <p class="descrip-p">Description: {{mainCategory.description}}</p>
             {% for i in subCategories %}
             <p>
@@ -34,6 +48,12 @@
                         </a>
             </p>
             {% endfor %}
+            
+            <p class="add-new-sub">
+                <a href='{{url_for('newSubCategory', mainCategory_id = mainCategory.id)}}'>
+                    **Add New {{mainCategory.name}} Sub Category** 
+                </a>
+            </p>
         </main>
 
     </div>

@@ -27,7 +27,7 @@ h1{
 
 p{
     margin: 5px 0;
-    font-size: 18px;
+    font-size: 14px;
 }
 
 a{
@@ -91,7 +91,7 @@ a{
 }
 
 .main-section{
-    width: 75%;
+    width: 65%;
     float: left;
     padding: 0 0 0 20px;
     border-left: 1px solid #d5d5d5;
@@ -109,10 +109,52 @@ a{
     color: #999;
 }
 
+.descrip-p{
+    margin-bottom: 25px;
+}
+
+.return-to-home{
+    float: right;
+}
+
+.return-to-home a{
+    text-decoration: underline !important;
+    font-weight: bold;
+    font-size: 14px;
+}
+
+/* add new */
+
+.add-new-sub{
+    margin-top: 30px;
+}
+
+.add-new-sub a{
+    text-decoration: underline !important;
+    font-weight: bold;
+}
+
+/* delete */
+
 #delete-a, #edit-a{
     padding: 5px;
 }
 
 #delete-a{
    border-left: 1px solid #d5d5d5; 
+}
+
+/* flash messages */
+.flash{
+    background-color: #f8be8a;
+    width: 70%;
+    margin: auto;
+    margin-top: -18px;
+    font-size: large;
+}
+
+.flash ul{
+    list-style-type: none;
+    text-align: center;
+    padding: 5px 0;
 }
