@@ -230,7 +230,7 @@ def mainCategory(mainCategory_id):
     creator = getUserInfo(mainCategory.user_id)
     subCategories = session.query(SubCategory).filter_by(mainCategory_id=mainCategory_id).order_by(asc(SubCategory.name))
     if 'username' not in login_session:
-        return render_template('public_mainCategory', mainCategories=mainCategories, mainCategory=mainCategory, mainCategory_id=mainCategory_id, subCategories=subCategories, creator=creator)
+        return render_template('public_mainCategory.html', mainCategories=mainCategories, mainCategory=mainCategory, mainCategory_id=mainCategory_id, subCategories=subCategories, creator=creator)
     else:
         return render_template('private_mainCategory.html', mainCategories=mainCategories, mainCategory=mainCategory, mainCategory_id=mainCategory_id, subCategories=subCategories, creator=creator)
 
@@ -242,7 +242,7 @@ def subCategory(mainCategory_id, subCategory_id):
     subCategory = session.query(SubCategory).filter_by(id=subCategory_id).one()
     creator = getUserInfo(subCategory.user_id)
     if 'username' not in login_session:
-        return render_template('public_subCategory', mainCategories=mainCategories, subCategory_id=subCategory_id, subCategory=subCategory)
+        return render_template('public_subCategory.html', mainCategories=mainCategories, subCategory_id=subCategory_id, subCategory=subCategory)
     else:
         return render_template('private_subCategory.html', mainCategories=mainCategories, subCategory_id=subCategory_id, subCategory=subCategory)
 
@@ -332,10 +332,10 @@ def deleteSubCategory(mainCategory_id, subCategory_id):
 @app.route('/disconnect')
 def disconnect():
     if 'provider' in login_session:
-        #if login_session['provider'] == 'google':
-        gdisconnect()
-        del login_session['gplus_id']
-        del login_session['credentials']
+        if login_session['provider'] == 'google':
+            gdisconnect()
+            #del login_session['gplus_id']
+            #del login_session['credentials']
         #if login_session['provider'] == 'facebook':
             #fbdisconnect()
             #del login_session['facebook_id']
