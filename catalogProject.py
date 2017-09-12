@@ -129,7 +129,7 @@ def gconnect():
     output += '<img src="'
     output += login_session['picture']
     output += ' " style = "width: 300px; height: 300px;border-radius: 150px;-webkit-border-radius: 150px;-moz-border-radius: 150px;"> '
-    flash("you are now logged in as %s" % login_session['username'])
+    flash("You are now logged in as %s" % login_session['username'])
     print "done!"
     return output
     
@@ -333,9 +333,9 @@ def deleteSubCategory(mainCategory_id, subCategory_id):
 def disconnect():
     if 'provider' in login_session:
         if login_session['provider'] == 'google':
-                gdisconnect()
-                del login_session['gplus_id']
-                del login_session['credentials']
+            gdisconnect()
+            del login_session['gplus_id']
+            del login_session['access_token']
         del login_session['username']
         del login_session['email']
         del login_session['picture']
