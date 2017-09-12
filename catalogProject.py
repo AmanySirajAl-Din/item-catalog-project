@@ -216,7 +216,9 @@ def subCategoryJSON(subCategory_id):
 def catalog_latest_updates():
     mainCategories = session.query(MainCategory).order_by(asc(MainCategory.name))
     latestItems = session.query(SubCategory).order_by(desc(SubCategory.id)).limit(7)
-    return render_template('catalog.html', mainCategories=mainCategories, latestItems=latestItems)
+    return render_template('catalog.html',
+                           mainCategories=mainCategories,
+                           latestItems=latestItems)
 
 
 # sub categories of main category
@@ -226,11 +228,24 @@ def mainCategory(mainCategory_id):
     mainCategories = session.query(MainCategory).order_by(asc(MainCategory.name))
     mainCategory = session.query(MainCategory).filter_by(id=mainCategory_id).one()
     creator = getUserInfo(mainCategory.user_id)
-    subCategories = session.query(SubCategory).filter_by(mainCategory_id=mainCategory_id).order_by(asc(SubCategory.name))
+    subCategories = session.query(SubCategory).filter_by(
+        mainCategory_id=mainCategory_id)
+        .order_by(asc(SubCategory.name))
+        
     if 'username' not in login_session:
-        return render_template('public_mainCategory.html', mainCategories=mainCategories, mainCategory=mainCategory, mainCategory_id=mainCategory_id, subCategories=subCategories, creator=creator)
+        return render_template('public_mainCategory.html',
+                               mainCategories=mainCategories,
+                               mainCategory=mainCategory,
+                               mainCategory_id=mainCategory_id,
+                               subCategories=subCategories,
+                               creator=creator)
     else:
-        return render_template('private_mainCategory.html', mainCategories=mainCategories, mainCategory=mainCategory, mainCategory_id=mainCategory_id, subCategories=subCategories, creator=creator)
+        return render_template('private_mainCategory.html',
+                               mainCategories=mainCategories,
+                               mainCategory=mainCategory,
+                               mainCategory_id=mainCategory_id,
+                               subCategories=subCategories,
+                               creator=creator)
 
 
 # sub category
@@ -240,9 +255,15 @@ def subCategory(mainCategory_id, subCategory_id):
     subCategory = session.query(SubCategory).filter_by(id=subCategory_id).one()
     creator = getUserInfo(subCategory.user_id)
     if 'username' not in login_session:
-        return render_template('public_subCategory.html', mainCategories=mainCategories, subCategory_id=subCategory_id, subCategory=subCategory)
+        return render_template('public_subCategory.html',
+                               mainCategories=mainCategories,
+                               subCategory_id=subCategory_id, 
+                               subCategory=subCategory)
     else:
-        return render_template('private_subCategory.html', mainCategories=mainCategories, subCategory_id=subCategory_id, subCategory=subCategory)
+        return render_template('private_subCategory.html',
+                               mainCategories=mainCategories,
+                               subCategory_id=subCategory_id,
+                               subCategory=subCategory)
 
 
 # add new sub category
@@ -265,7 +286,9 @@ def newSubCategory(mainCategory_id):
         flash('%s Recipes Successfully Created' % (newItem.name))
         return redirect(url_for('mainCategory', mainCategory_id=mainCategory_id))
     else:
-        return render_template('new_subCtegory.html', mainCategory_id=mainCategory_id, mainCategories=mainCategories)
+        return render_template('new_subCtegory.html',
+                               mainCategory_id=mainCategory_id,
+                               mainCategories=mainCategories)
 
 
 # edit sub category
@@ -284,7 +307,9 @@ def editSubCategory(mainCategory_id, subCategory_id):
     if login_session['user_id'] != editedItem.user_id:
         flash("You are not authorized to edit this sub category.")
         flash("Please create your own sub category in order to edit items.")
-        return redirect(url_for('subCategory', mainCategory_id=mainCategory_id, subCategory_id=subCategory_id))
+        return redirect(url_for('subCategory',
+                                mainCategory_id=mainCategory_id,
+                                subCategory_id=subCategory_id))
     
     if request.method == 'POST':
         if request.form['name']:
@@ -294,10 +319,16 @@ def editSubCategory(mainCategory_id, subCategory_id):
         session.add(editedItem)
         session.commit()
         flash(editedItemName + " Recipes has been edited")
-        return redirect(url_for('subCategory', mainCategory_id=mainCategory_id, subCategory_id=subCategory_id))
+        return redirect(url_for('subCategory',
+                                mainCategory_id=mainCategory_id,
+                                subCategory_id=subCategory_id))
     else:
         return render_template(
-            'edit_subCategory.html', mainCategory_id=mainCategory_id, subCategory_id=subCategory_id, item=editedItem, mainCategories=mainCategories)
+            'edit_subCategory.html',
+            mainCategory_id=mainCategory_id,
+            subCategory_id=subCategory_id,
+            item=editedItem, 
+            mainCategories=mainCategories)
     
     
 # delete sub category
@@ -315,7 +346,9 @@ def deleteSubCategory(mainCategory_id, subCategory_id):
     if login_session['user_id'] != itemToDelete.user_id:
         flash("You are not authorized to delete this sub category.")
         flash("Please create your own sub category in order to delete items.")
-        return redirect(url_for('subCategory', mainCategory_id=mainCategory_id, subCategory_id=subCategory_id))
+        return redirect(url_for('subCategory',
+                                mainCategory_id=mainCategory_id,
+                                subCategory_id=subCategory_id))
     
     if request.method == 'POST':
         session.delete(itemToDelete)
