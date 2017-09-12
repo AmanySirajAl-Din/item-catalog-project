@@ -331,10 +331,11 @@ def deleteSubCategory(mainCategory_id, subCategory_id):
 # Disconnect based on provider
 @app.route('/disconnect')
 def disconnect():
-    if login_session['provider'] == 'google':
-            gdisconnect()
-            del login_session['access_token']
-            del login_session['gplus_id']
+    if 'provider' in login_session:
+        if login_session['provider'] == 'google':
+                gdisconnect()
+                del login_session['access_token']
+                del login_session['gplus_id']
         del login_session['username']
         del login_session['email']
         del login_session['picture']
@@ -343,7 +344,7 @@ def disconnect():
         flash("You have successfully been logged out.")
         return redirect(url_for('catalog_latest_updates'))
     else:
-        flash("You were not logged in")
+        flash("Please log in first")
         return redirect(url_for('catalog_latest_updates'))
     
 
